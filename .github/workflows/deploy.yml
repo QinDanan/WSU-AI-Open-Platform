@@ -23,11 +23,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Fetch WSU school emblem
+      - name: Extract official school emblem
         run: |
-          mkdir -p assets
           if [ ! -s assets/school-emblem.png ]; then
-            curl --fail --location --retry 3 --connect-timeout 10 --max-time 45 \
+            python -m pip install --quiet pymupdf
+            python scripts/fetch_school_emblem.py || echo 'Trying alternate public image resource'
+          fi
+          if [ ! -s assets/school-emblem.png ]; then
+            curl --fail --location --retry 2 --connect-timeout 8 --max-time 40 \
+              -A 'Mozilla/5.0' \
               'https://jobs.ac.cn/storage/companies/wuchang-shouyi-university.png' \
               --output assets/school-emblem.png || rm -f assets/school-emblem.png
           fi
@@ -37,11 +41,11 @@ jobs:
             git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
             git add assets/school-emblem.png
             if ! git diff --cached --quiet; then
-              git commit -m 'assets: include WSU school emblem'
-              git push || echo 'Could not commit emblem; bundled in site artifact'
+              git commit -m 'assets: add authentic school emblem'
+              git push || echo 'Logo bundled with site artifact; source commit skipped'
             fi
           else
-            echo 'Emblem download unavailable; HTML fallback URL remains configured'
+            echo 'School emblem was not retrieved from the public sources'
           fi
       - name: Prepare website artifact
         run: |
