@@ -21,14 +21,8 @@
   }
   let activeNote=notes[0]?.id || null, docPreview=false, taskFilter='all',activeTool='grades',appFilter='全部', appQuery='',knowledgeFilter='全部',knowledgeQuery='';
   let settings=safeLoad('settings',{endpoint:'',model:'deepseek-chat'});if(!settings || typeof settings!=='object')settings={endpoint:'',model:'deepseek-chat'};
-  let chatMode=safeLoad('chatMode','guest');
-  if(!['guest','free','api'].includes(chatMode))chatMode='guest';
-  try {
-    if(localStorage.getItem('syai:guestModeMigrationV1')!=='true'){
-      if(chatMode==='free')chatMode='guest';
-      safeSave('chatMode',chatMode);localStorage.setItem('syai:guestModeMigrationV1','true');
-    }
-  }catch{chatMode='guest'}
+  let chatMode=safeLoad('chatMode','guest')==='api'?'api':'guest';
+  safeSave('chatMode',chatMode);
   let gatewayToken='';
   let threads=safeLoad('threads',[]);if(!Array.isArray(threads))threads=[];
   let activeThread=threads[0]?.id || null;
@@ -153,8 +147,8 @@
   function resetTimer(){time.running=false;clearInterval(time.tick);time.remaining=time.mode==='focus'?1500:300;paintTimer()}
   function toggleTimer(){if(time.running){clearInterval(time.tick);time.running=false;time.remaining=Math.max(0,Math.ceil((time.deadline-Date.now())/1000));paintTimer();return}time.running=true;time.deadline=Date.now()+time.remaining*1000;time.tick=setInterval(()=>{time.remaining=Math.max(0,Math.ceil((time.deadline-Date.now())/1000));paintTimer();if(time.remaining===0){clearInterval(time.tick);time.running=false;toast(time.mode==='focus'?'专注时间结束，休息一下':'休息结束，可以继续学习');paintTimer()}},250);paintTimer()}
 
-  /* AI conversations — guest inference, Puter account, and personal API */
-  let sendingChat=false, puterSdkFailed=false;
+  /* AI conversations — anonymous inference and personal API */
+  let sendingChat=false;
   const apiEndpoint=()=>String(settings.endpoint||'').trim();
   const apiConnected=()=>/^https:\/\//.test(apiEndpoint()) || /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?/.test(apiEndpoint());
   const selectedMode=()=>chatMode;
@@ -166,46 +160,14 @@
     const t={id:uuid(),mode:selectedMode(),title:'新对话',messages:[],created:Date.now()};
     threads.unshift(t);activeThread=t.id;persistThreads();renderChat();
   }
-  function sdk(){return window.puter?.ai?.chat&&window.puter?.auth?window.puter:null}
-  function sdkLoggedIn(){
-    try{return !!sdk()?.auth.isSignedIn()}catch{return false}
-  }
-  function updateFreeAccount(){
-    const state=$('puter-account-state');
-    if(!state)return;
-    if(puterSdkFailed){state.textContent='免费组件加载失败，请检查网络';return}
-    if(!sdk()){state.textContent='免费组件正在加载…';return}
-    const signedIn=sdkLoggedIn();
-    state.textContent=signedIn?'Puter 已连接':'首次问答时按提示登录';
-    $('puter-connect').textContent=signedIn?'切换账户':'连接 Puter';
-  }
-  function ensurePuterSdk(){
-    if(sdk()||$('puter-sdk'))return;
-    const script=document.createElement('script');
-    script.id='puter-sdk';script.src='https://js.puter.com/v2/';script.async=true;
-    script.addEventListener('load',()=>{puterSdkFailed=false;updateFreeAccount();renderChat()});
-    script.addEventListener('error',()=>{puterSdkFailed=true;updateFreeAccount()});
-    document.head.appendChild(script);
-  }
   function setChatMode(next){
-    chatMode=['guest','free','api'].includes(next)?next:'guest';
-    if(chatMode==='free')ensurePuterSdk();
+    chatMode=next==='api'?'api':'guest';
     safeSave('chatMode',chatMode);
     activeThread=modeThreads()[0]?.id||null;
     renderChat();
   }
   $('chat-mode-guest').onclick=()=>setChatMode('guest');
-  $('chat-mode-free').onclick=()=>setChatMode('free');
   $('chat-mode-api').onclick=()=>setChatMode('api');
-  $('puter-connect').onclick=()=>{
-    const client=sdk();
-    if(!client){toast('Puter 组件尚未加载，请检查网络后重试');return}
-    try{
-      Promise.resolve(client.auth.signIn({attempt_temp_user_creation:true,...(sdkLoggedIn()?{request_auth:true}:{})}))
-        .then(()=>{updateFreeAccount();toast('Puter 账号已连接')})
-        .catch(error=>toast('登录未完成：'+displayChatError(error)));
-    }catch(error){toast('登录未完成：'+displayChatError(error))}
-  };
   $('new-chat').onclick=newThread;
   $('chat-clear-all').onclick=()=>{
     if(!modeThreads().length)return;
@@ -214,26 +176,22 @@
     persistThreads();renderChat();toast('本地会话已清空');
   };
   function updateModeUi(){
-    const guest=selectedMode()==='guest',free=selectedMode()==='free',api=selectedMode()==='api';
-    for(const [id,enabled] of [['chat-mode-guest',guest],['chat-mode-free',free],['chat-mode-api',api]]){
+    const guest=selectedMode()==='guest';
+    for(const [id,enabled] of [['chat-mode-guest',guest],['chat-mode-api',!guest]]){
       $(id).classList.toggle('active',enabled);
       $(id).setAttribute('aria-pressed',String(enabled));
     }
     $('guest-channel-note').hidden=!guest;
-    $('free-account-row').hidden=!free;
     $('chat-provider-info').textContent=guest
       ?'Murakumo · 无需登录或 API Key · 模型 Mishima'
-      :free?'Puter.js · 首次使用可能需要登录 Puter'
       :'自定义 API · 使用个人服务端网关及模型';
-    $('chat-configure').style.display=api?'inline-flex':'none';
+    $('chat-configure').style.display=guest?'none':'inline-flex';
     $('chat-foot').textContent=guest
       ?'外部模型推理 · 18 岁及以上 · 共享网络额度 · 历史仅保存在当前浏览器'
-      :free?'免费额度由 Puter 账户提供，历史仅保存在当前浏览器。'
       :'使用自定义网关；访问令牌仅保留在当前页面。';
-    const ok=guest?true:free?!!sdk():apiConnected();
-    $('model-name-label').textContent=guest?'Murakumo · Mishima':free?'Puter · 默认模型':(ok?(settings.model||'已配置模型'):'尚未配置 API');
+    const ok=guest||apiConnected();
+    $('model-name-label').textContent=guest?'Murakumo · Mishima':(ok?(settings.model||'已配置模型'):'尚未配置 API');
     $('gateway-status-dot').classList.toggle('connected',ok);
-    if(free)updateFreeAccount();
   }
   function renderChat(){
     updateModeUi();
@@ -244,9 +202,7 @@
     if(!thread||!thread.messages.length){
       const description=selectedMode()==='guest'
         ?'直接提问，无需登录。使用 Murakumo 的公开免费推理服务。'
-        :selectedMode()==='free'
-          ?'首次使用请按提示登录 Puter，免费额度由账户提供。'
-          :(apiConnected()?'通过已配置的 AI 网关进行对话。':'请先配置自己的 API 网关地址。');
+        :(apiConnected()?'通过已配置的 AI 网关进行对话。':'请先配置自己的 API 网关地址。');
       $('chat-body').innerHTML='<div class="chat-intro"><span class="intro-crest"><img src="assets/school-emblem.png?v=20261105-r2" alt="校徽"></span><h2>开始新的对话</h2><p>'+escapeHTML(description)+'</p><div class="chat-prompts"><button data-chat-prompt="解释一下傅里叶变换的基本思想">解释傅里叶变换</button><button data-chat-prompt="帮我梳理一份英语学习计划">梳理英语学习计划</button><button data-chat-prompt="如何阅读一篇科研论文？">科研论文阅读方法</button><button data-chat-prompt="给我一个 Python 数据分析示例">Python 数据分析示例</button></div></div>';
       $$('[data-chat-prompt]').forEach(b=>b.onclick=()=>{$('chat-input').value=b.dataset.chatPrompt;$('chat-input').focus()});
     }else{
@@ -256,10 +212,8 @@
   }
   function displayChatError(error){
     const e=String(error?.msg||error?.message||error||'请求失败');
-    if(/quota|usage.limit|balance|billing|insufficient|payment|credit|exceeded/i.test(e))
-      return 'Puter 免费额度可能已用完，请到 Puter 账户查看用量。';
-    if(/popup.blocked|auth.window.closed|user.cancelled|login.cancel/i.test(e))
-      return '未完成 Puter 登录，请点击「连接 Puter」后重试。';
+    if(/quota|usage.limit|balance|billing|insufficient|payment|credit|exceeded|429/i.test(e))
+      return '免费配额可能已用完或服务繁忙，请稍后重试。';
     if(/network|fetch.failed|Failed to fetch|ERR_|timeout/i.test(e))
       return '连接服务失败，请检查网络后重试。';
     return e.slice(0,160);
@@ -285,18 +239,6 @@
     if(!response.ok)throw new Error(typeof payload.error==='string'?payload.error:'HTTP '+response.status);
     const answer=payload.choices?.[0]?.message?.content;
     if(typeof answer!=='string'||!answer.trim())throw new Error('试用模型未返回文本回答');
-    return answer.trim();
-  }
-  async function sendFree(messages){
-    const client=sdk();
-    if(!client)throw new Error('Puter 组件未加载。请检查网络后刷新页面，或选择自定义 API。');
-    if(!sdkLoggedIn()){
-      await client.auth.signIn({attempt_temp_user_creation:true});
-      updateFreeAccount();
-    }
-    const response=await client.ai.chat(messages,{normalize:true});
-    const answer=response?.message?.content;
-    if(typeof answer!=='string'||!answer.trim())throw new Error('模型未返回有效文本，请重新发送。');
     return answer.trim();
   }
   async function sendApi(messages){
@@ -326,9 +268,6 @@
     if(selectedMode()==='api'&&!apiConnected()){
       openSettings();$('settings-message').textContent='请先配置你的 API 网关地址';return;
     }
-    if(selectedMode()==='free'&&!sdk()){
-      toast('免费组件尚未加载，请检查网络后重试');return;
-    }
     let thread=currentThread();
     if(!thread){newThread();thread=currentThread()}
     if(!thread.messages.length)thread.title=message.slice(0,24);
@@ -344,7 +283,7 @@
     loader.innerHTML='<span class="message-avatar">SY</span><div class="message-content">正在生成回复…</div>';
     $('chat-body').appendChild(loader);$('chat-body').scrollTop=$('chat-body').scrollHeight;
     try{
-      const answer=modeAtSend==='guest'?await sendGuest(history):modeAtSend==='free'?await sendFree(history):await sendApi(history);
+      const answer=modeAtSend==='guest'?await sendGuest(history):await sendApi(history);
       thread.messages.push({role:'assistant',content:answer});persistThreads();
     }catch(error){
       const message=displayChatError(error);
@@ -415,6 +354,5 @@
   $('command-query').onkeydown=e=>{if(e.key==='ArrowDown'){e.preventDefault();commandSelection=Math.min(commandFiltered.length-1,commandSelection+1);paintCommands()}else if(e.key==='ArrowUp'){e.preventDefault();commandSelection=Math.max(0,commandSelection-1);paintCommands()}else if(e.key==='Enter'){e.preventDefault();launchCommand(commandSelection)}};
   $('search-overlay').onclick=e=>{if(e.target===$('search-overlay'))closeCommand()};
   document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeCommand();closeSettings();closeMobile()};if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openCommand()}else if(e.key==='/'&&!['INPUT','TEXTAREA'].includes(document.activeElement.tagName)&&$('search-overlay').hidden&&!e.ctrlKey&&!e.metaKey){e.preventDefault();openCommand()}});
-  if(selectedMode()==='free')ensurePuterSdk();
   renderDashboard();renderKnowledge();renderDocs();renderTasks();renderChat();renderApps();renderTool();navigate();
 })();
