@@ -13,7 +13,7 @@ const sizes = [
 ];
 (async () => {
   const browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
-  const report = { testedAt: new Date().toISOString(), pages: [], problems: [] };
+  const report = { pages: [], problems: [] };
   try {
     for (const size of sizes) {
       const context = await browser.newContext({
