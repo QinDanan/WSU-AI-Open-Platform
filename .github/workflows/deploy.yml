@@ -3,6 +3,13 @@ name: Deploy WSU AI
 on:
   push:
     branches: [main]
+    paths:
+      - 'index.html'
+      - 'assets/*.css'
+      - 'assets/*.js'
+      - 'assets/favicon.svg'
+      - 'assets/school-emblem.png'
+      - '.github/workflows/deploy.yml'
   workflow_dispatch:
 
 permissions:
@@ -36,7 +43,8 @@ jobs:
         run: |
           mkdir -p dist
           cp index.html dist/
-          cp -R assets dist/
+          mkdir -p dist/assets
+          cp assets/*.css assets/*.js assets/favicon.svg assets/school-emblem.png dist/assets/
           touch dist/.nojekyll
       - name: Configure Pages
         uses: actions/configure-pages@v5
