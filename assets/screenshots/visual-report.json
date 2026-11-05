@@ -1,5 +1,5 @@
 {
-  "testedAt": "2026-11-05T07:08:59.806Z",
+  "testedAt": "2026-11-05T07:14:52.517Z",
   "pages": [
     {
       "name": "small",
@@ -760,7 +760,7 @@
       "route": "dashboard",
       "check": {
         "searchIconOffset": {
-          "x": -89,
+          "x": -88,
           "y": 0
         },
         "viewport": 768,
@@ -837,7 +837,7 @@
       "route": "chat",
       "check": {
         "searchIconOffset": {
-          "x": -89,
+          "x": -88,
           "y": 0
         },
         "viewport": 768,
@@ -882,7 +882,7 @@
       "route": "knowledge",
       "check": {
         "searchIconOffset": {
-          "x": -89,
+          "x": -88,
           "y": 0
         },
         "viewport": 768,
@@ -919,7 +919,7 @@
       "route": "docs",
       "check": {
         "searchIconOffset": {
-          "x": -89,
+          "x": -88,
           "y": 0
         },
         "viewport": 768,
@@ -960,7 +960,7 @@
       "route": "planner",
       "check": {
         "searchIconOffset": {
-          "x": -89,
+          "x": -88,
           "y": 0
         },
         "viewport": 768,
@@ -997,7 +997,7 @@
       "route": "tools",
       "check": {
         "searchIconOffset": {
-          "x": -89,
+          "x": -88,
           "y": 0
         },
         "viewport": 768,
@@ -1034,7 +1034,7 @@
       "route": "apps",
       "check": {
         "searchIconOffset": {
-          "x": -89,
+          "x": -88,
           "y": 0
         },
         "viewport": 768,
@@ -1103,7 +1103,7 @@
       "route": "about",
       "check": {
         "searchIconOffset": {
-          "x": -89,
+          "x": -88,
           "y": 0
         },
         "viewport": 768,
@@ -1140,7 +1140,7 @@
       "route": "dashboard",
       "check": {
         "searchIconOffset": {
-          "x": -89,
+          "x": -88,
           "y": 0
         },
         "viewport": 1440,
@@ -1209,7 +1209,7 @@
       "route": "chat",
       "check": {
         "searchIconOffset": {
-          "x": -89,
+          "x": -88,
           "y": 0
         },
         "viewport": 1440,
@@ -1246,7 +1246,7 @@
       "route": "knowledge",
       "check": {
         "searchIconOffset": {
-          "x": -89,
+          "x": -88,
           "y": 0
         },
         "viewport": 1440,
@@ -1275,7 +1275,7 @@
       "route": "docs",
       "check": {
         "searchIconOffset": {
-          "x": -89,
+          "x": -88,
           "y": 0
         },
         "viewport": 1440,
@@ -1308,7 +1308,7 @@
       "route": "planner",
       "check": {
         "searchIconOffset": {
-          "x": -89,
+          "x": -88,
           "y": 0
         },
         "viewport": 1440,
@@ -1337,7 +1337,7 @@
       "route": "tools",
       "check": {
         "searchIconOffset": {
-          "x": -89,
+          "x": -88,
           "y": 0
         },
         "viewport": 1440,
@@ -1366,7 +1366,7 @@
       "route": "apps",
       "check": {
         "searchIconOffset": {
-          "x": -89,
+          "x": -88,
           "y": 0
         },
         "viewport": 1440,
@@ -1427,7 +1427,7 @@
       "route": "about",
       "check": {
         "searchIconOffset": {
-          "x": -89,
+          "x": -88,
           "y": 0
         },
         "viewport": 1440,
