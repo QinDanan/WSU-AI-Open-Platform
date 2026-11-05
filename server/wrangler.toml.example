@@ -1,0 +1,17 @@
+name = "wsu-ai-gateway"
+main = "worker.js"
+compatibility_date = "2026-11-01"
+
+[vars]
+ALLOWED_ORIGIN = "https://cha290196-hue.github.io"
+UPSTREAM_URL = "https://api.deepseek.com/chat/completions"
+MODEL_ALLOWLIST = "deepseek-chat,deepseek-reasoner"
+MAX_TOKENS = "2048"
+
+# Configure secrets separately:
+# wrangler secret put AI_API_KEY
+# wrangler secret put GATEWAY_ACCESS_TOKEN
+#
+# For multi-user operation, replace the shared access token with identity-based
+# authentication and configure Cloudflare Worker rate limiting, usage controls,
+# and audit logging according to your campus policies.

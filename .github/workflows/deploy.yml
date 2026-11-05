@@ -1,4 +1,4 @@
-name: Deploy WSU AI website
+name: Deploy WSU AI
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -23,12 +23,39 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Fetch WSU school emblem
+        run: |
+          mkdir -p assets
+          if [ ! -s assets/school-emblem.png ]; then
+            curl --fail --location --retry 3 --connect-timeout 10 --max-time 45 \
+              'https://jobs.ac.cn/storage/companies/wuchang-shouyi-university.png' \
+              --output assets/school-emblem.png || rm -f assets/school-emblem.png
+          fi
+          if [ -s assets/school-emblem.png ]; then
+            file assets/school-emblem.png
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add assets/school-emblem.png
+            if ! git diff --cached --quiet; then
+              git commit -m 'assets: include WSU school emblem'
+              git push || echo 'Could not commit emblem; bundled in site artifact'
+            fi
+          else
+            echo 'Emblem download unavailable; HTML fallback URL remains configured'
+          fi
+      - name: Prepare website artifact
+        run: |
+          mkdir -p dist/assets
+          cp index.html dist/
+          cp assets/*.js assets/*.css assets/*.svg dist/assets/
+          if [ -s assets/school-emblem.png ]; then cp assets/school-emblem.png dist/assets/; fi
+          touch dist/.nojekyll
       - name: Configure Pages
         uses: actions/configure-pages@v5
-      - name: Upload static site
+      - name: Upload site
         uses: actions/upload-pages-artifact@v4
         with:
-          path: .
+          path: dist
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
