@@ -94,24 +94,20 @@ Puter 为每个账户提供**有限的免费月度额度**，不是无限免费�
 ## 技术实现
 
 ```text
-┌─────────────────────────────────────────┐
-│          Browser / GitHub Pages         │
-│                                         │
-│  Router · Dashboard · Notes · Planner   │
-│  Knowledge Index · Utility Modules      │
-│           Local Storage API             │
-└───────────────────┬─────────────────────┘
-                  │              │
-             Puter.js SDK      HTTPS /chat
-                  │              ▼
-┌─────────────────────────────────────────┐
-│          Model API Gateway              │
-│  CORS · Origin · Access Token · Limits   │
-│              Server Secrets             │
-└───────────────────┬─────────────────────┘
-                    │
-                    ▼
-            OpenAI-compatible API
+                   ┌────────────────────┐
+                   │    GitHub Pages    │
+                   │ Web UI · Local data│
+                   └─────────┬──────────┘
+                             │
+                ┌────────────┴─────────────┐
+                │                          │
+      ┌─────────▼─────────┐     ┌──────────▼──────────┐
+      │     Puter.js      │     │    API Gateway      │
+      │ Browser AI SDK    │     │  Cloudflare Worker  │
+      │ Puter user quota  │     │  Own server secrets │
+      └─────────┬─────────┘     └──────────┬──────────┘
+                │                          │
+           Puter AI                  Model provider
 ```
 
 前端代码位于 [`index.html`](index.html) 和 [`assets/`](assets/)。校园公开资料与图标定义位于 [`assets/data.js`](assets/data.js)，交互逻辑位于 [`assets/app.js`](assets/app.js)。页面样式拆分为基础规则 `styles.css` 和布局修订 `polish.css`。
