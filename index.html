@@ -7,7 +7,7 @@
   <meta name="description" content="首义 AI · 武昌首义学院 AI 工作台，集校园资料检索、学习规划、文档工具与 AI 对话于一体。">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="stylesheet" href="assets/styles.css?v=20261105-search4">
-  <link rel="stylesheet" href="assets/polish.css?v=20261105-guest-ai1">
+  <link rel="stylesheet" href="assets/polish.css?v=20261105-guest-ai2">
   <style>
     /* Search control: absolute optical centering works even with stale grid styles. */
     @media (max-width:700px) {
@@ -131,8 +131,7 @@
   <div class="overlay" id="search-overlay" hidden><div class="command-dialog" role="dialog" aria-modal="true" aria-labelledby="command-title"><div class="command-input"><span data-icon="search"></span><input id="command-query" aria-label="全局搜索" autocomplete="off" placeholder="搜索页面、工具、校园信息…"><kbd>ESC</kbd></div><div class="command-section" id="command-results"></div><div class="command-bottom">↑ ↓ 选择 <span>↵ 打开</span> <span>ESC 关闭</span></div></div></div>
   <div class="overlay" id="settings-overlay" hidden><div class="settings-dialog" role="dialog" aria-modal="true" aria-labelledby="settings-title"><div class="settings-head"><div><span>CONFIGURATION</span><h2 id="settings-title">AI 网关设置</h2></div><button class="icon-button" id="settings-close" aria-label="关闭设置"><span data-icon="x"></span></button></div><p>填写服务端部署的 API 地址。模型密钥仅在服务端设置，不填写在这里。</p><label for="gateway-url">网关 API 地址</label><input type="url" id="gateway-url" placeholder="https://your-worker.example.workers.dev/chat"><label for="gateway-token">网关访问令牌（仅本次页面有效）</label><input type="password" id="gateway-token" autocomplete="off" placeholder="如网关要求访问令牌，请在这里填写"><label for="gateway-model">模型名称</label><input type="text" id="gateway-model" placeholder="例如 deepseek-chat"><div class="settings-actions"><button class="btn btn-blue" id="save-settings">保存设置</button><button class="btn btn-neutral" id="test-connection">测试连接</button></div><div class="settings-message" id="settings-message" aria-live="polite"></div><a class="settings-doc" href="https://github.com/cha290196-hue/WSU-AI-Open-Platform/tree/main/server" target="_blank" rel="noopener noreferrer">查看后端接入方式 <span data-icon="arrow-up-right"></span></a></div></div>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script async src="https://js.puter.com/v2/" id="puter-sdk"></script>
   <script src="assets/data.js"></script>
-  <script src="assets/app.js?v=20261105-free-ai2"></script>
+  <script src="assets/app.js?v=20261105-guest-ai2"></script>
 </body>
 </html>
