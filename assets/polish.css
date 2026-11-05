@@ -268,3 +268,5 @@ img{max-width:100%}
   .grade-row input{font-size:10px;padding:7px 3px}
   .editor-actions .tiny-button{padding:8px}
 }
+/* Keep panel controls reachable at 320px and in landscape. */
+@media(max-width:420px){.top-right{flex-shrink:0}.mobile-toggle{flex-shrink:0}.editor-actions{max-width:100%}.app-filter-search{flex:1 1 100%}}
