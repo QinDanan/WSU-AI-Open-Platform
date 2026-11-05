@@ -170,7 +170,7 @@
     if(!sdk()){state.textContent='免费组件正在加载…';return}
     const signedIn=sdkLoggedIn();
     state.textContent=signedIn?'Puter 已连接':'首次问答时按提示登录';
-    $('puter-connect').textContent=signedIn?'重新登录':'连接 Puter';
+    $('puter-connect').textContent=signedIn?'切换账户':'连接 Puter';
   }
   const sdkScript=$('puter-sdk');
   if(sdkScript){
@@ -189,7 +189,7 @@
     const client=sdk();
     if(!client){toast('Puter 组件尚未加载，请检查网络后重试');return}
     try{
-      Promise.resolve(client.auth.signIn({attempt_temp_user_creation:true}))
+      Promise.resolve(client.auth.signIn({attempt_temp_user_creation:true,...(sdkLoggedIn()?{request_auth:true}:{})}))
         .then(()=>{updateFreeAccount();toast('Puter 账号已连接')})
         .catch(error=>toast('登录未完成：'+displayChatError(error)));
     }catch(error){toast('登录未完成：'+displayChatError(error))}
@@ -233,7 +233,7 @@
       $('chat-body').innerHTML='<div class="chat-intro"><span class="intro-crest"><img src="assets/school-emblem.png?v=20261105-r2" alt="校徽"></span><h2>开始新的对话</h2><p>'+escapeHTML(description)+'</p><div class="chat-prompts"><button data-chat-prompt="解释一下傅里叶变换的基本思想">解释傅里叶变换</button><button data-chat-prompt="帮我梳理一份英语学习计划">梳理英语学习计划</button><button data-chat-prompt="如何阅读一篇科研论文？">科研论文阅读方法</button><button data-chat-prompt="给我一个 Python 数据分析示例">Python 数据分析示例</button></div></div>';
       $$('[data-chat-prompt]').forEach(b=>b.onclick=()=>{$('chat-input').value=b.dataset.chatPrompt;$('chat-input').focus()});
     }else{
-      $('chat-body').innerHTML=thread.messages.map(m=>'<div class="chat-message '+(m.role==='user'?'user':'')+'"><span class="message-avatar">'+(m.role==='user'?'我':'SY')+'</span><div class="message-content">'+escapeHTML(m.content)+'</div></div>').join('');
+      $('chat-body').innerHTML=thread.messages.map(m=>'<div class="chat-message '+(m.role==='user'?'user':m.role==='error'?'error':'')+'"><span class="message-avatar">'+(m.role==='user'?'我':m.role==='error'?'!':'SY')+'</span><div class="message-content">'+escapeHTML(m.content)+'</div></div>').join('');
       $('chat-body').scrollTop=$('chat-body').scrollHeight;
     }
   }
@@ -309,7 +309,8 @@
     }catch(error){
       const message=displayChatError(error);
       toast('请求失败：'+message);
-      loader.querySelector('.message-content').textContent='请求失败：'+message;
+      thread.messages.push({role:'error',content:'请求失败：'+message});
+      persistThreads();
     }finally{
       sendingChat=false;$('send-message').disabled=false;renderChat();
     }
