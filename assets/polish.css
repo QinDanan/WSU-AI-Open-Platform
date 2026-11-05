@@ -391,3 +391,7 @@ img{max-width:100%}
   .chat-provider-picker+.chat-toolbar{padding:12px 13px;gap:9px}
   .chat-provider-picker+.chat-toolbar .model-label{min-width:0;overflow-wrap:anywhere}
 }
+
+/* Retain failed request feedback as a visible chat message. */
+.chat-message.error .message-avatar{background:#fff1ed;color:#b44e35}
+.chat-message.error .message-content{background:#fff7f3;border-color:#f6d7c9;color:#8e4639}
