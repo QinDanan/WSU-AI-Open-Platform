@@ -6,8 +6,8 @@
   <meta name="theme-color" content="#f6f9fd">
   <meta name="description" content="首义 AI · 武昌首义学院 AI 工作台，集校园资料检索、学习规划、文档工具与 AI 对话于一体。">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-  <link rel="stylesheet" href="assets/styles.css?v=20261105-search3">
-  <link rel="stylesheet" href="assets/polish.css?v=20261105-search3">
+  <link rel="stylesheet" href="assets/styles.css?v=20261105-search4">
+  <link rel="stylesheet" href="assets/polish.css?v=20261105-search4">
   <style>
     /* Search control: absolute optical centering works even with stale grid styles. */
     @media (max-width:700px) {
@@ -32,9 +32,32 @@
       }
     }
   </style>
+
+  <style>
+    /* Native search SVG: no JS icon replacement or anonymous CSS grid cells. */
+    #global-search-trigger>.search-native-icon { display:block; width:18px; height:18px; flex:none; pointer-events:none; }
+    @media (max-width:700px) {
+      #global-search-trigger.search-shortcut {
+        box-sizing:border-box!important; position:relative!important;
+        display:block!important; flex:0 0 38px!important;
+        width:38px!important; height:38px!important; padding:0!important;
+        font-size:0!important; text-align:center!important;
+      }
+      #global-search-trigger>.search-label,
+      #global-search-trigger>kbd { display:none!important; }
+      #global-search-trigger>svg.search-native-icon {
+        display:block!important; position:absolute!important;
+        left:50%!important; top:50%!important; right:auto!important; bottom:auto!important;
+        width:20px!important; height:20px!important; margin:0!important; padding:0!important;
+        transform:translate(-50%,-50%)!important;
+        transform-origin:center center!important;
+        float:none!important; flex:none!important; align-self:auto!important;
+      }
+    }
+  </style>
   <title>首义 AI — 工作台</title>
 </head>
-<body>
+<body data-release="mobile-search-20261105-4">
   <div id="app" class="app-shell">
     <aside class="sidebar" id="sidebar" aria-label="主导航">
       <a class="brand" href="#/dashboard" aria-label="首义 AI 工作台">
@@ -57,7 +80,7 @@
     <div class="workspace">
       <header class="topbar">
         <div class="top-left"><button class="icon-button mobile-toggle" id="mobile-toggle" aria-label="打开菜单"><span data-icon="menu"></span></button><a class="mobile-brand" href="#/dashboard"><img src="assets/school-emblem.png?v=20261105-r2" width="30" height="30" alt="武昌首义学院校徽">首义 AI</a><span class="crumb-root">Workspace</span><span class="crumb-slash">/</span><span id="page-crumb" class="crumb-current">工作台</span></div>
-        <div class="top-right"><span class="top-date" id="top-date"></span><div class="top-divider"></div><button id="global-search-trigger" class="search-shortcut" type="button" aria-label="搜索功能或校园信息"><span data-icon="search" aria-hidden="true"></span><span class="search-label">搜索功能或校园信息</span><kbd>⌘ K</kbd></button><button class="icon-button" title="设置" id="settings-trigger" aria-label="打开设置"><span data-icon="settings-2"></span></button><span class="top-avatar">SY</span></div>
+        <div class="top-right"><span class="top-date" id="top-date"></span><div class="top-divider"></div><button id="global-search-trigger" class="search-shortcut" type="button" aria-label="搜索功能或校园信息"><svg class="search-native-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><span class="search-label">搜索功能或校园信息</span><kbd>⌘ K</kbd></button><button class="icon-button" title="设置" id="settings-trigger" aria-label="打开设置"><span data-icon="settings-2"></span></button><span class="top-avatar">SY</span></div>
       </header>
       <main class="content">
         <section class="page active" id="page-dashboard">
