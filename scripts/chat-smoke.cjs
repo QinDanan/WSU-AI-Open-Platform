@@ -13,7 +13,8 @@ const base = process.env.WSU_BASE || 'http://127.0.0.1:4173/';
     const errors=[],requests=[],unknownProviderRequests=[];
     page.on('pageerror',error=>errors.push(error.message));
     page.on('request',req=>{
-      if (/js\.puter\.com|puter\.com/i.test(req.url()))unknownProviderRequests.push(req.url());
+      if (req.resourceType()==='script' && new URL(req.url()).origin!==new URL(base).origin)
+        unknownProviderRequests.push(req.url());
     });
     await page.addInitScript(() => {
       localStorage.setItem('syai:settings',JSON.stringify({
@@ -46,7 +47,7 @@ const base = process.env.WSU_BASE || 'http://127.0.0.1:4173/';
     assert.equal(await page.locator('#chat-mode-api').getAttribute('aria-pressed'),'false');
     assert.equal(await page.locator('#chat-configure').isVisible(),false,
       'API settings are hidden in the keyless mode');
-    assert.equal(await page.locator('#puter-sdk').count(),0,
+    assert.equal(await page.locator('script[src^="https://"]').count(),0,
       'No retired provider SDK should be present');
     await page.locator('#chat-input').fill('匿名问答测试');
     await page.locator('#send-message').click();
