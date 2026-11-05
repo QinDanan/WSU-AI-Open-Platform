@@ -35,6 +35,25 @@
 [**打开实时界面**](https://cha290196-hue.github.io/WSU-AI-Open-Platform/) 查看桌面与手机适配。交互覆盖侧栏导航、全局命令搜索、工具切换与各工作区。
 
 <!-- SCREENSHOTS_START -->
+<table>
+<tr><td width="72%" align="center"><b>Desktop · 1440 px</b></td><td width="28%" align="center"><b>Mobile · 390 px</b></td></tr>
+<tr>
+<td valign="top"><img src="assets/screenshots/desktop-dashboard.png" alt="工作台桌面端截图" width="100%"></td>
+<td valign="top"><img src="assets/screenshots/mobile-dashboard.png" alt="工作台手机端截图" width="100%"></td>
+</tr>
+</table>
+
+<details>
+<summary><b>查看文档与工具页面</b></summary>
+
+| 文档工作台 | 实用工具 |
+|:---:|:---:|
+| <img src="assets/screenshots/mobile-docs.png" width="300" alt="手机文档编辑器"> | <img src="assets/screenshots/mobile-tools.png" width="300" alt="手机实用工具"> |
+
+</details>
+
+[完整视觉测试报告](assets/screenshots/visual-report.json) · [更多桌面截图](assets/screenshots/)
+
 <!-- SCREENSHOTS_END -->
 
 ## 功能
