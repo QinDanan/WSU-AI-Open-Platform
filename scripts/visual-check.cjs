@@ -18,7 +18,9 @@ const sizes = [
     for (const size of sizes) {
       const context = await browser.newContext({
         viewport: { width: size.width, height: size.height },
-        deviceScaleFactor: 1,
+        deviceScaleFactor: size.width <= 390 ? 3 : 1,
+        isMobile: size.width <= 390,
+        hasTouch: size.width <= 390,
         reducedMotion: 'reduce',
       });
       const page = await context.newPage();
@@ -47,7 +49,7 @@ const sizes = [
               };
             });
           const searchButton = document.querySelector('#global-search-trigger');
-          const searchGlyph = searchButton?.querySelector('svg');
+          const searchGlyph = searchButton?.querySelector('svg.search-native-icon');
           let searchIconOffset = null;
           if (searchButton && searchGlyph && visible(searchButton) && visible(searchGlyph)) {
             const buttonRect = searchButton.getBoundingClientRect();
@@ -59,6 +61,9 @@ const sizes = [
           }
           return {
             searchIconOffset,
+            searchIconTag: searchGlyph?.tagName,
+            searchIconPosition: searchGlyph ? getComputedStyle(searchGlyph).position : null,
+            searchButtonLabel: searchButton?.getAttribute('aria-label'),
             viewport: innerWidth, scrollWidth: document.documentElement.scrollWidth,
             bodyWidth: document.body.scrollWidth,
             active: active?.id || '',
@@ -73,6 +78,8 @@ const sizes = [
         if (size.width <= 700 && (!check.searchIconOffset ||
           Math.abs(check.searchIconOffset.x) > 1 || Math.abs(check.searchIconOffset.y) > 1))
           problems.push('Search icon off-center: ' + JSON.stringify(check.searchIconOffset));
+        if (size.width <= 390 && (check.searchIconPosition !== 'absolute' || check.searchIconTag !== 'svg'))
+          problems.push('Mobile search is not using static centered SVG');
         if (check.positions.some(p => Math.abs(p.deltaX) > 3 || Math.abs(p.deltaY) > 3))
           problems.push('Icon not centered');
         report.pages.push({ ...size, route, check, problems });
