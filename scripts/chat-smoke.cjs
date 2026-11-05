@@ -17,12 +17,13 @@ const base = process.env.WSU_BASE || 'http://127.0.0.1:4173/';
       window.__freeTestCalls=[];
     });
     const stub = [
-      'window.__puterLoggedIn=false;',
+      'window.__puterLoggedIn=false;window.__signInCalls=[];',
       'window.puter={',
       ' auth:{isSignedIn:()=>window.__puterLoggedIn,',
-      '   signIn:async()=>{window.__puterLoggedIn=true;return {username:"test"};}},',
+      '   signIn:async(options)=>{window.__signInCalls.push(options);window.__puterLoggedIn=true;return {username:"test"};}},',
       ' ai:{chat:async(messages,options)=>{',
       '   window.__freeTestCalls.push({messages,options});',
+      '   if(messages.at(-1).content === "模拟失败") throw new Error("mock provider unavailable");',
       '   return {message:{role:"assistant",content:"FREE_REPLY: "+messages.at(-1).content}};',
       ' }}',
       '};'
@@ -47,6 +48,17 @@ const base = process.env.WSU_BASE || 'http://127.0.0.1:4173/';
     assert.equal(freeCalls.length,1,'Exactly one Puter SDK chat call is expected');
     assert.equal(freeCalls[0].messages.at(-1).content,'测试免费问答');
     assert.equal(freeCalls[0].options.normalize,true);
+    await page.locator('#puter-connect').click();
+    await page.waitForFunction(()=>window.__signInCalls.length === 2);
+    assert.equal((await page.evaluate(()=>window.__signInCalls[1])).request_auth,true,
+      'Explicit account switch must open account picker');
+    await page.locator('#chat-input').fill('模拟失败');
+    await page.locator('#send-message').click();
+    await page.waitForFunction(()=>
+      [...document.querySelectorAll('#chat-body .chat-message.error .message-content')]
+        .some(e=>e.textContent.includes('mock provider unavailable')),null,{timeout:10000});
+    assert.ok((await page.locator('#chat-body').innerText()).includes('请求失败'),
+      'Request failures must remain visible in conversation history');
     await page.locator('#chat-mode-api').click();
     assert.equal(await page.locator('#chat-mode-api').getAttribute('aria-pressed'),'true');
     assert.equal(await page.locator('#chat-body .chat-intro').count(),1,
@@ -62,7 +74,7 @@ const base = process.env.WSU_BASE || 'http://127.0.0.1:4173/';
     assert.ok(!(await page.locator('#chat-body').innerText()).includes('API_REPLY'),
       'The API history must remain isolated');
     assert.deepEqual(errors,[],'The UI must not throw JavaScript errors');
-    console.log('PASS: default free chat, first-use login, Puter reply, API selection, isolated history, mobile layout');
+    console.log('PASS: default free chat, first-use login, Puter reply, API selection, isolated history, error persistence, account switch, mobile layout');
     await context.close();
   } finally {await browser.close()}
 })().catch(e=>{console.error(e);process.exitCode=1});
