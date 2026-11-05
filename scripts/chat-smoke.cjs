@@ -8,6 +8,7 @@ const base = process.env.WSU_BASE || 'http://127.0.0.1:4173/';
       viewport:{width:390,height:844},isMobile:true,hasTouch:true,deviceScaleFactor:3
     });
     const page = await context.newPage();
+    const guestRequests=[];
     const errors=[];
     page.on('pageerror',e=>errors.push(e.message));
     await page.addInitScript(() => {
@@ -31,14 +32,41 @@ const base = process.env.WSU_BASE || 'http://127.0.0.1:4173/';
     await page.route('https://js.puter.com/v2/',route=>route.fulfill({
       status:200,contentType:'application/javascript',body:stub
     }));
+    await page.route('https://api.murakumo.cloud/v1/chat/completions',route=>{
+      guestRequests.push({
+        headers:route.request().headers(),
+        body:route.request().postDataJSON()
+      });
+      route.fulfill({
+        status:200,contentType:'application/json',
+        headers:{'Access-Control-Allow-Origin':'*'},
+        body:JSON.stringify({choices:[{message:{role:'assistant',content:'GUEST_REPLY'}}]})
+      });
+    });
     await page.route('https://example.test/chat',route=>route.fulfill({
       status:200,contentType:'application/json',
       body:JSON.stringify({choices:[{message:{role:'assistant',content:'API_REPLY'}}]})
     }));
     await page.goto(base+'#/chat',{waitUntil:'load',timeout:30000});
+    assert.equal(await page.locator('#chat-mode-guest').getAttribute('aria-pressed'),'true',
+      'Anonymous chat must be the default for a fresh visitor');
+    assert.equal(await page.locator('#puter-sdk').count(),0,
+      'Guest mode must not load the third-party Puter SDK');
+    await page.locator('#chat-input').fill('匿名问答测试');
+    await page.locator('#send-message').click();
+    await page.waitForFunction(()=>
+      [...document.querySelectorAll('#chat-body .message-content')]
+        .some(e=>e.textContent.includes('GUEST_REPLY')),null,{timeout:10000});
+    assert.equal(guestRequests.length,1,'One keyless request is expected');
+    assert.equal(guestRequests[0].body.model,'mishima');
+    assert.equal(guestRequests[0].body.messages.at(-1).content,'匿名问答测试');
+    assert.ok(!('authorization' in guestRequests[0].headers),'Guest request must not carry an API key');
+    await page.locator('#chat-mode-free').click();
     await page.waitForFunction(()=>!!window.puter?.ai?.chat);
     assert.equal(await page.locator('#chat-mode-free').getAttribute('aria-pressed'),'true',
-      'Free chat must be the default');
+      'Puter mode should be available on demand');
+    assert.equal(await page.locator('#chat-body .chat-intro').count(),1,
+      'Guest history must be isolated from Puter');
     await page.locator('#chat-input').fill('测试免费问答');
     await page.locator('#send-message').click();
     await page.waitForFunction(()=>
@@ -73,8 +101,13 @@ const base = process.env.WSU_BASE || 'http://127.0.0.1:4173/';
       'Switching back must restore Puter conversation');
     assert.ok(!(await page.locator('#chat-body').innerText()).includes('API_REPLY'),
       'The API history must remain isolated');
+    await page.locator('#chat-mode-guest').click();
+    assert.ok((await page.locator('#chat-body').innerText()).includes('GUEST_REPLY'),
+      'Anonymous chat history must be restored');
+    assert.ok(!(await page.locator('#chat-body').innerText()).includes('FREE_REPLY'),
+      'Guest history must not include Puter messages');
     assert.deepEqual(errors,[],'The UI must not throw JavaScript errors');
-    console.log('PASS: default free chat, first-use login, Puter reply, API selection, isolated history, error persistence, account switch, mobile layout');
+    console.log('PASS: default keyless guest chat, lazy Puter SDK, Puter authorization, personal API, three isolated histories, mobile layout');
     await context.close();
   } finally {await browser.close()}
 })().catch(e=>{console.error(e);process.exitCode=1});
