@@ -11,6 +11,7 @@ on:
       - assets/*.png
       - scripts/visual-check.cjs
       - scripts/chat-smoke.cjs
+      - .github/workflows/visual-qa.yml
   workflow_dispatch:
 
 permissions:
@@ -59,8 +60,20 @@ jobs:
             git config user.name 'github-actions[bot]'
             git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
             git add assets/screenshots
-            git diff --cached --quiet || git commit -m 'test: update rendered desktop and mobile screenshots'
-            git push || echo 'Screenshot commit could not be pushed'
+            if ! git diff --cached --quiet; then
+              git commit -m 'test: update rendered desktop and mobile screenshots'
+              for attempt in 1 2 3; do
+                git fetch origin main
+                git rebase origin/main
+                if git push; then
+                  break
+                fi
+                if [ "$attempt" -eq 3 ]; then
+                  echo 'Unable to push screenshots after three attempts'
+                  exit 1
+                fi
+              done
+            fi
           fi
       - name: Verify results
         if: steps.check.outcome == 'failure' || steps.chat_smoke.outcome == 'failure'
