@@ -179,13 +179,17 @@
     state.textContent=signedIn?'Puter 已连接':'首次问答时按提示登录';
     $('puter-connect').textContent=signedIn?'切换账户':'连接 Puter';
   }
-  const sdkScript=$('puter-sdk');
-  if(sdkScript){
-    sdkScript.addEventListener('load',updateFreeAccount);
-    sdkScript.addEventListener('error',()=>{puterSdkFailed=true;updateFreeAccount()});
+  function ensurePuterSdk(){
+    if(sdk()||$('puter-sdk'))return;
+    const script=document.createElement('script');
+    script.id='puter-sdk';script.src='https://js.puter.com/v2/';script.async=true;
+    script.addEventListener('load',()=>{puterSdkFailed=false;updateFreeAccount();renderChat()});
+    script.addEventListener('error',()=>{puterSdkFailed=true;updateFreeAccount()});
+    document.head.appendChild(script);
   }
   function setChatMode(next){
     chatMode=['guest','free','api'].includes(next)?next:'guest';
+    if(chatMode==='free')ensurePuterSdk();
     safeSave('chatMode',chatMode);
     activeThread=modeThreads()[0]?.id||null;
     renderChat();
@@ -411,5 +415,6 @@
   $('command-query').onkeydown=e=>{if(e.key==='ArrowDown'){e.preventDefault();commandSelection=Math.min(commandFiltered.length-1,commandSelection+1);paintCommands()}else if(e.key==='ArrowUp'){e.preventDefault();commandSelection=Math.max(0,commandSelection-1);paintCommands()}else if(e.key==='Enter'){e.preventDefault();launchCommand(commandSelection)}};
   $('search-overlay').onclick=e=>{if(e.target===$('search-overlay'))closeCommand()};
   document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeCommand();closeSettings();closeMobile()};if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openCommand()}else if(e.key==='/'&&!['INPUT','TEXTAREA'].includes(document.activeElement.tagName)&&$('search-overlay').hidden&&!e.ctrlKey&&!e.metaKey){e.preventDefault();openCommand()}});
+  if(selectedMode()==='free')ensurePuterSdk();
   renderDashboard();renderKnowledge();renderDocs();renderTasks();renderChat();renderApps();renderTool();navigate();
 })();
