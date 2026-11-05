@@ -10,6 +10,7 @@ on:
       - assets/*.svg
       - assets/*.png
       - scripts/visual-check.cjs
+      - scripts/chat-smoke.cjs
   workflow_dispatch:
 
 permissions:
@@ -40,6 +41,10 @@ jobs:
         id: check
         continue-on-error: true
         run: node scripts/visual-check.cjs
+      - name: Verify free AI chat and optional API
+        id: chat_smoke
+        continue-on-error: true
+        run: node scripts/chat-smoke.cjs
       - name: Upload visual report
         if: always()
         uses: actions/upload-artifact@v4
@@ -58,5 +63,5 @@ jobs:
             git push || echo 'Screenshot commit could not be pushed'
           fi
       - name: Verify results
-        if: steps.check.outcome == 'failure'
+        if: steps.check.outcome == 'failure' || steps.chat_smoke.outcome == 'failure'
         run: exit 1
