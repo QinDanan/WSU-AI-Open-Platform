@@ -58,21 +58,29 @@ jobs:
               "post" in result["cors_allow_methods"].lower() and
               ("content-type" in result["cors_allow_headers"].lower() or result["cors_allow_headers"]=="*")
           )
-          payload={"model":"murakumo/free","messages":[{"role":"user","content":"Reply with exactly WSU-READY."}],"max_tokens":48,"temperature":0}
-          t=time.monotonic()
-          c,h,b=request("POST",endpoint,headers={"Content-Type":"application/json","Origin":origin},data=json.dumps(payload).encode(),timeout=75)
-          result["chat_http_status"]=c
-          result["latency_seconds"]=round(time.monotonic()-t,2)
-          result["response_excerpt"]=b[:300] if c!=200 else ""
-          result["reply"]=""
-          try:
-              parsed=json.loads(b)
-              choices=parsed.get("choices",[])
-              if choices:
-                  result["reply"]=str(choices[0].get("message",{}).get("content",""))[:300]
-          except Exception as err:
-              result["response_parse_error"]=str(err)
-          result["real_chat_ok"]=(c==200 and bool(result["reply"].strip()))
+          attempts=[]
+          for model in ("mishima","murakumo/free","qwen3-vl-2b-instruct"):
+              payload={"model":model,"messages":[{"role":"user","content":"Reply exactly WSU-READY."}],"max_tokens":64}
+              t=time.monotonic()
+              c,h,b=request("POST",endpoint,headers={"Content-Type":"application/json","Origin":origin},
+                            data=json.dumps(payload).encode(),timeout=50)
+              item={"model":model,"status":c,"latency_seconds":round(time.monotonic()-t,2),"reply":""}
+              try:
+                  obj=json.loads(b)
+                  if c==200:
+                      item["reply"]=str((obj.get("choices") or [{}])[0].get("message",{}).get("content",""))[:300]
+                  else:
+                      item["error"]=str(obj.get("error",obj))[:160]
+              except Exception:
+                  item["error"]=b[:160]
+              attempts.append(item)
+              if c==200 and item["reply"].strip():break
+          result["model_attempts"]=attempts
+          last=attempts[-1]
+          result["chat_http_status"]=last["status"]
+          result["reply"]=last["reply"]
+          result["real_chat_ok"]=(last["status"]==200 and bool(last["reply"].strip()))
+          result["browser_cors_ok"]=bool(result["browser_cors_ok"])
           result["integration_ready"]=result["real_chat_ok"] and result["browser_cors_ok"]
           print(json.dumps(result,ensure_ascii=False,indent=2))
           summary=os.environ.get("GITHUB_STEP_SUMMARY")
