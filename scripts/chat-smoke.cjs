@@ -1,113 +1,87 @@
 const { chromium } = require('playwright');
 const assert = require('node:assert/strict');
 const base = process.env.WSU_BASE || 'http://127.0.0.1:4173/';
+
 (async () => {
   const browser = await chromium.launch({headless:true,args:['--no-sandbox']});
   try {
     const context = await browser.newContext({
-      viewport:{width:390,height:844},isMobile:true,hasTouch:true,deviceScaleFactor:3
+      viewport:{width:390,height:844},
+      isMobile:true,hasTouch:true,deviceScaleFactor:3
     });
     const page = await context.newPage();
-    const guestRequests=[];
-    const errors=[];
-    page.on('pageerror',e=>errors.push(e.message));
+    const errors=[],requests=[],unknownProviderRequests=[];
+    page.on('pageerror',error=>errors.push(error.message));
+    page.on('request',req=>{
+      if (/js\.puter\.com|puter\.com/i.test(req.url()))unknownProviderRequests.push(req.url());
+    });
     await page.addInitScript(() => {
       localStorage.setItem('syai:settings',JSON.stringify({
         endpoint:'https://example.test/chat',model:'test-model'
       }));
-      window.__freeTestCalls=[];
+      // A returning user may still have the old third-provider preference.
+      localStorage.setItem('syai:chatMode',JSON.stringify('free'));
     });
-    const stub = [
-      'window.__puterLoggedIn=false;window.__signInCalls=[];',
-      'window.puter={',
-      ' auth:{isSignedIn:()=>window.__puterLoggedIn,',
-      '   signIn:async(options)=>{window.__signInCalls.push(options);window.__puterLoggedIn=true;return {username:"test"};}},',
-      ' ai:{chat:async(messages,options)=>{',
-      '   window.__freeTestCalls.push({messages,options});',
-      '   if(messages.at(-1).content === "模拟失败") throw new Error("mock provider unavailable");',
-      '   return {message:{role:"assistant",content:"FREE_REPLY: "+messages.at(-1).content}};',
-      ' }}',
-      '};'
-    ].join('');
-    await page.route('https://js.puter.com/v2/',route=>route.fulfill({
-      status:200,contentType:'application/javascript',body:stub
-    }));
     await page.route('https://api.murakumo.cloud/v1/chat/completions',route=>{
-      guestRequests.push({
-        headers:route.request().headers(),
-        body:route.request().postDataJSON()
-      });
+      const body=route.request().postDataJSON();
+      requests.push({url:route.request().url(),headers:route.request().headers(),body});
+      const error=body.messages.at(-1).content==='模拟免费失败';
       route.fulfill({
-        status:200,contentType:'application/json',
+        status:error?429:200,
+        contentType:'application/json',
         headers:{'Access-Control-Allow-Origin':'*'},
-        body:JSON.stringify({choices:[{message:{role:'assistant',content:'GUEST_REPLY'}}]})
+        body:JSON.stringify(error?{error:'quota exceeded'}:
+          {choices:[{message:{role:'assistant',content:'GUEST_REPLY'}}]})
       });
     });
     await page.route('https://example.test/chat',route=>route.fulfill({
       status:200,contentType:'application/json',
+      headers:{'Access-Control-Allow-Origin':'*'},
       body:JSON.stringify({choices:[{message:{role:'assistant',content:'API_REPLY'}}]})
     }));
     await page.goto(base+'#/chat',{waitUntil:'load',timeout:30000});
+    assert.equal(await page.locator('.chat-mode-choice').count(),2,'Two modes are expected');
     assert.equal(await page.locator('#chat-mode-guest').getAttribute('aria-pressed'),'true',
-      'Anonymous chat must be the default for a fresh visitor');
+      'Retired mode must migrate to anonymous chat');
+    assert.equal(await page.locator('#chat-mode-api').getAttribute('aria-pressed'),'false');
+    assert.equal(await page.locator('#chat-configure').isVisible(),false,
+      'API settings are hidden in the keyless mode');
     assert.equal(await page.locator('#puter-sdk').count(),0,
-      'Guest mode must not load the third-party Puter SDK');
+      'No retired provider SDK should be present');
     await page.locator('#chat-input').fill('匿名问答测试');
     await page.locator('#send-message').click();
     await page.waitForFunction(()=>
       [...document.querySelectorAll('#chat-body .message-content')]
-        .some(e=>e.textContent.includes('GUEST_REPLY')),null,{timeout:10000});
-    assert.equal(guestRequests.length,1,'One keyless request is expected');
-    assert.equal(guestRequests[0].body.model,'mishima');
-    assert.equal(guestRequests[0].body.messages.at(-1).content,'匿名问答测试');
-    assert.ok(!('authorization' in guestRequests[0].headers),'Guest request must not carry an API key');
-    await page.locator('#chat-mode-free').click();
-    await page.waitForFunction(()=>!!window.puter?.ai?.chat);
-    assert.equal(await page.locator('#chat-mode-free').getAttribute('aria-pressed'),'true',
-      'Puter mode should be available on demand');
-    assert.equal(await page.locator('#chat-body .chat-intro').count(),1,
-      'Guest history must be isolated from Puter');
-    await page.locator('#chat-input').fill('测试免费问答');
+        .some(node=>node.textContent.includes('GUEST_REPLY')),null,{timeout:10000});
+    assert.equal(requests.length,1,'One anonymous request is expected');
+    assert.equal(requests[0].body.model,'mishima');
+    assert.equal(requests[0].body.messages.at(-1).content,'匿名问答测试');
+    assert.ok(!('authorization' in requests[0].headers),'No credential can be sent');
+    await page.locator('#chat-input').fill('模拟免费失败');
     await page.locator('#send-message').click();
     await page.waitForFunction(()=>
-      [...document.querySelectorAll('#chat-body .message-content')]
-        .some(e=>e.textContent.includes('FREE_REPLY: 测试免费问答')),null,{timeout:10000});
-    const freeCalls=await page.evaluate(()=>window.__freeTestCalls);
-    assert.equal(freeCalls.length,1,'Exactly one Puter SDK chat call is expected');
-    assert.equal(freeCalls[0].messages.at(-1).content,'测试免费问答');
-    assert.equal(freeCalls[0].options.normalize,true);
-    await page.locator('#puter-connect').click();
-    await page.waitForFunction(()=>window.__signInCalls.length === 2);
-    assert.equal((await page.evaluate(()=>window.__signInCalls[1])).request_auth,true,
-      'Explicit account switch must open account picker');
-    await page.locator('#chat-input').fill('模拟失败');
-    await page.locator('#send-message').click();
-    await page.waitForFunction(()=>
-      [...document.querySelectorAll('#chat-body .chat-message.error .message-content')]
-        .some(e=>e.textContent.includes('mock provider unavailable')),null,{timeout:10000});
-    assert.ok((await page.locator('#chat-body').innerText()).includes('请求失败'),
-      'Request failures must remain visible in conversation history');
+      document.querySelector('#chat-body .chat-message.error .message-content')
+        ?.textContent.includes('免费额度'),null,{timeout:10000});
     await page.locator('#chat-mode-api').click();
     assert.equal(await page.locator('#chat-mode-api').getAttribute('aria-pressed'),'true');
+    assert.equal(await page.locator('#chat-configure').isVisible(),true);
     assert.equal(await page.locator('#chat-body .chat-intro').count(),1,
-      'API history should not contain Puter messages');
+      'API history must not display anonymous messages');
     await page.locator('#chat-input').fill('测试自定义 API');
     await page.locator('#send-message').click();
     await page.waitForFunction(()=>
       [...document.querySelectorAll('#chat-body .message-content')]
-        .some(e=>e.textContent.includes('API_REPLY')),null,{timeout:10000});
-    await page.locator('#chat-mode-free').click();
-    assert.ok((await page.locator('#chat-body').innerText()).includes('FREE_REPLY: 测试免费问答'),
-      'Switching back must restore Puter conversation');
-    assert.ok(!(await page.locator('#chat-body').innerText()).includes('API_REPLY'),
-      'The API history must remain isolated');
+        .some(node=>node.textContent.includes('API_REPLY')),null,{timeout:10000});
     await page.locator('#chat-mode-guest').click();
-    assert.ok((await page.locator('#chat-body').innerText()).includes('GUEST_REPLY'),
-      'Anonymous chat history must be restored');
-    assert.ok(!(await page.locator('#chat-body').innerText()).includes('FREE_REPLY'),
-      'Guest history must not include Puter messages');
-    assert.deepEqual(errors,[],'The UI must not throw JavaScript errors');
-    console.log('PASS: default keyless guest chat, lazy Puter SDK, Puter authorization, personal API, three isolated histories, mobile layout');
+    const guestText=await page.locator('#chat-body').innerText();
+    assert.ok(guestText.includes('GUEST_REPLY'),'Anonymous history must be restored');
+    assert.ok(guestText.includes('免费额度'),'Anonymous failure details must persist');
+    assert.ok(!guestText.includes('API_REPLY'),'API history must stay separate');
+    assert.deepEqual(unknownProviderRequests,[],'Removed SDK must never load');
+    assert.deepEqual(errors,[],'The app must not throw errors');
+    console.log('PASS: keyless chat, custom API, old setting migration, two isolated histories, no removed SDK, mobile UI');
     await context.close();
-  } finally {await browser.close()}
-})().catch(e=>{console.error(e);process.exitCode=1});
+  } finally {
+    await browser.close();
+  }
+})().catch(error=>{console.error(error);process.exitCode=1});
