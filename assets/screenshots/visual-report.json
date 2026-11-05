@@ -1,5 +1,5 @@
 {
-  "testedAt": "2026-11-05T07:14:52.517Z",
+  "testedAt": "2026-11-05T07:15:49.223Z",
   "pages": [
     {
       "name": "small",
@@ -11,6 +11,9 @@
           "x": 0,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "absolute",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 320,
         "scrollWidth": 320,
         "bodyWidth": 320,
@@ -88,6 +91,9 @@
           "x": 0,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "absolute",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 320,
         "scrollWidth": 320,
         "bodyWidth": 320,
@@ -129,6 +135,9 @@
           "x": 0,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "absolute",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 320,
         "scrollWidth": 320,
         "bodyWidth": 320,
@@ -166,6 +175,9 @@
           "x": 0,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "absolute",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 320,
         "scrollWidth": 320,
         "bodyWidth": 320,
@@ -207,6 +219,9 @@
           "x": 0,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "absolute",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 320,
         "scrollWidth": 320,
         "bodyWidth": 320,
@@ -244,6 +259,9 @@
           "x": 0,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "absolute",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 320,
         "scrollWidth": 320,
         "bodyWidth": 320,
@@ -281,6 +299,9 @@
           "x": 0,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "absolute",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 320,
         "scrollWidth": 320,
         "bodyWidth": 320,
@@ -350,6 +371,9 @@
           "x": 0,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "absolute",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 320,
         "scrollWidth": 320,
         "bodyWidth": 320,
@@ -387,6 +411,9 @@
           "x": 0,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "absolute",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 390,
         "scrollWidth": 390,
         "bodyWidth": 390,
@@ -464,6 +491,9 @@
           "x": 0,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "absolute",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 390,
         "scrollWidth": 390,
         "bodyWidth": 390,
@@ -505,6 +535,9 @@
           "x": 0,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "absolute",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 390,
         "scrollWidth": 390,
         "bodyWidth": 390,
@@ -542,6 +575,9 @@
           "x": 0,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "absolute",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 390,
         "scrollWidth": 390,
         "bodyWidth": 390,
@@ -583,6 +619,9 @@
           "x": 0,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "absolute",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 390,
         "scrollWidth": 390,
         "bodyWidth": 390,
@@ -620,6 +659,9 @@
           "x": 0,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "absolute",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 390,
         "scrollWidth": 390,
         "bodyWidth": 390,
@@ -657,6 +699,9 @@
           "x": 0,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "absolute",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 390,
         "scrollWidth": 390,
         "bodyWidth": 390,
@@ -726,6 +771,9 @@
           "x": 0,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "absolute",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 390,
         "scrollWidth": 390,
         "bodyWidth": 390,
@@ -763,6 +811,9 @@
           "x": -88,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "static",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 768,
         "scrollWidth": 768,
         "bodyWidth": 768,
@@ -840,6 +891,9 @@
           "x": -88,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "static",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 768,
         "scrollWidth": 768,
         "bodyWidth": 768,
@@ -885,6 +939,9 @@
           "x": -88,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "static",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 768,
         "scrollWidth": 768,
         "bodyWidth": 768,
@@ -922,6 +979,9 @@
           "x": -88,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "static",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 768,
         "scrollWidth": 768,
         "bodyWidth": 768,
@@ -963,6 +1023,9 @@
           "x": -88,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "static",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 768,
         "scrollWidth": 768,
         "bodyWidth": 768,
@@ -1000,6 +1063,9 @@
           "x": -88,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "static",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 768,
         "scrollWidth": 768,
         "bodyWidth": 768,
@@ -1037,6 +1103,9 @@
           "x": -88,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "static",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 768,
         "scrollWidth": 768,
         "bodyWidth": 768,
@@ -1106,6 +1175,9 @@
           "x": -88,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "static",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 768,
         "scrollWidth": 768,
         "bodyWidth": 768,
@@ -1143,6 +1215,9 @@
           "x": -88,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "static",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 1440,
         "scrollWidth": 1440,
         "bodyWidth": 1440,
@@ -1212,6 +1287,9 @@
           "x": -88,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "static",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 1440,
         "scrollWidth": 1440,
         "bodyWidth": 1440,
@@ -1249,6 +1327,9 @@
           "x": -88,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "static",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 1440,
         "scrollWidth": 1440,
         "bodyWidth": 1440,
@@ -1278,6 +1359,9 @@
           "x": -88,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "static",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 1440,
         "scrollWidth": 1440,
         "bodyWidth": 1440,
@@ -1311,6 +1395,9 @@
           "x": -88,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "static",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 1440,
         "scrollWidth": 1440,
         "bodyWidth": 1440,
@@ -1340,6 +1427,9 @@
           "x": -88,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "static",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 1440,
         "scrollWidth": 1440,
         "bodyWidth": 1440,
@@ -1369,6 +1459,9 @@
           "x": -88,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "static",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 1440,
         "scrollWidth": 1440,
         "bodyWidth": 1440,
@@ -1430,6 +1523,9 @@
           "x": -88,
           "y": 0
         },
+        "searchIconTag": "svg",
+        "searchIconPosition": "static",
+        "searchButtonLabel": "搜索功能或校园信息",
         "viewport": 1440,
         "scrollWidth": 1440,
         "bodyWidth": 1440,
