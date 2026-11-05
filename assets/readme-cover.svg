@@ -1,7 +1,47 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="340" viewBox="0 0 1200 340" role="img" aria-label="首义 AI · WSU AI Open Platform">
-<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#082b59"/><stop offset=".58" stop-color="#0c457f"/><stop offset="1" stop-color="#1165a3"/></linearGradient><linearGradient id="line" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#47c0f3"/><stop offset="1" stop-color="#c8f2ff"/></linearGradient><pattern id="grid" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M28 0H0V28" fill="none" stroke="#ffffff" stroke-opacity=".07"/></pattern><filter id="shadow"><feDropShadow dx="0" dy="15" stdDeviation="12" flood-color="#062044" flood-opacity=".35"/></filter></defs>
-<rect width="1200" height="340" fill="url(#bg)" rx="18"/><rect x="0" y="0" width="1200" height="340" rx="18" fill="url(#grid)"/><path d="M785 -50c200 80 100 180 290 220s210 130 310 180" fill="none" stroke="#ffffff" stroke-width="1" stroke-opacity=".18"/><circle cx="957" cy="168" r="160" fill="none" stroke="#89d7ff" stroke-width="1.5" stroke-opacity=".22"/><circle cx="957" cy="168" r="111" fill="none" stroke="#89d7ff" stroke-width="1.5" stroke-opacity=".38"/><circle cx="957" cy="168" r="64" fill="none" stroke="#89d7ff" stroke-width="1" stroke-dasharray="5 7" stroke-opacity=".45"/><path d="M957 10v318M795 168h330" stroke="#69a6d6" opacity=".2"/><path d="M925 158v-15l32-18 32 18v15l-32 18z" fill="none" stroke="#c2ebff" stroke-width="3"/><path d="M927 181 957 202l30-21M941 199l16 13 16-13" fill="none" stroke="#5ed4f5" stroke-width="4" stroke-linecap="round"/>
-<rect x="54" y="45" width="38" height="38" rx="9" fill="#ffffff" fill-opacity=".13" stroke="#ffffff" stroke-opacity=".3"/><path d="m62 58 11 13 11-13M62 71h22" stroke="#c9f0ff" stroke-width="2.4" fill="none" stroke-linecap="round"/><text x="106" y="71" font-size="16" font-family="Arial,Helvetica,sans-serif" font-weight="700" fill="#d0eaff" letter-spacing="2">WSU AI / OPEN PLATFORM</text>
-<path d="M54 116h33" stroke="url(#line)" stroke-width="4" stroke-linecap="round"/><text x="52" y="202" font-size="65" font-family="Arial,'Microsoft YaHei',sans-serif" font-weight="800" letter-spacing="-2" fill="white">首义 AI</text><text x="55" y="238" font-size="16" font-family="Arial,'Microsoft YaHei',sans-serif" fill="#b4d8f7">校园资料 / 文档工具 / 学习计划 / 模型网关</text>
-<rect x="54" y="273" width="174" height="29" rx="6" fill="#ffffff" fill-opacity=".11" stroke="#c7e5fb" stroke-opacity=".35"/><text x="69" y="292" font-size="11" font-weight="700" font-family="Arial,sans-serif" fill="#d0efff" letter-spacing="1.2">WEB APPLICATION</text><text x="1090" y="300" font-size="11" font-weight="700" font-family="Arial,sans-serif" fill="#b6d6ed" letter-spacing="2">2026 / WSU</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="384" viewBox="0 0 1280 384">
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f7faff"/><stop offset="1" stop-color="#eef4fb"/></linearGradient>
+    <linearGradient id="navy" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0c2e5c"/><stop offset="1" stop-color="#16518f"/></linearGradient>
+    <clipPath id="screen"><rect x="700" y="60" width="550" height="285" rx="16"/></clipPath>
+  </defs>
+  <rect width="1280" height="384" rx="22" fill="url(#background)"/>
+  <path d="M0 346H1280" stroke="#dce8f5"/>
+  <path d="M54 51h35v35H54z" fill="#0c2e5c" rx="7"/>
+  <path d="m62 70 7-9 7 9 7-9" stroke="#fff" stroke-width="3.3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <text x="104" y="72" font-size="16" font-family="Arial,Helvetica,sans-serif" font-weight="700" fill="#285585" letter-spacing="2.5">WSU AI / OPEN PLATFORM</text>
+  <text x="54" y="172" font-size="66" font-family="'Microsoft YaHei',Arial,sans-serif" font-weight="800" fill="#0c2e5c">首义 AI</text>
+  <rect x="55" y="192" width="42" height="4" rx="2" fill="#2679ce"/>
+  <text x="54" y="243" font-family="'Microsoft YaHei',Arial,sans-serif" font-size="20" fill="#48627f">校园资料　 / 　文档工作台　 / 　学习工具</text>
+  <text x="55" y="312" font-family="Arial,Helvetica,sans-serif" font-size="13" letter-spacing="3" font-weight="700" fill="#88a1bb">WEB APPLICATION　 · 　2026</text>
+  <g clip-path="url(#screen)">
+    <rect x="700" y="60" width="550" height="285" rx="16" fill="white" stroke="#c8d9ec" stroke-width="2"/>
+    <rect x="700" y="60" width="128" height="285" fill="url(#navy)"/>
+    <rect x="718" y="88" width="25" height="25" rx="6" fill="#e7f1fd"/>
+    <path d="m724 101 6-7 6 7" stroke="#1e5ca5" stroke-width="2" fill="none"/>
+    <rect x="750" y="95" width="49" height="6" rx="3" fill="#cadff6"/>
+    <rect x="716" y="143" width="96" height="26" rx="7" fill="#2766a9"/>
+    <rect x="724" y="154" width="12" height="5" rx="2" fill="#bad8fa"/>
+    <rect x="743" y="154" width="52" height="5" rx="2" fill="#e4f2ff"/>
+    <rect x="724" y="189" width="12" height="5" rx="2" fill="#7ca7d8"/>
+    <rect x="743" y="189" width="44" height="5" rx="2" fill="#94b5dc"/>
+    <rect x="724" y="223" width="12" height="5" rx="2" fill="#7ca7d8"/>
+    <rect x="743" y="223" width="50" height="5" rx="2" fill="#94b5dc"/>
+    <rect x="852" y="85" width="123" height="8" rx="4" fill="#284d78"/>
+    <rect x="852" y="109" width="173" height="5" rx="2.5" fill="#b9c9d8"/>
+    <rect x="852" y="137" width="260" height="113" rx="10" fill="#103b73"/>
+    <rect x="870" y="154" width="75" height="5" rx="2.5" fill="#7ba7d7"/>
+    <rect x="870" y="174" width="109" height="13" rx="4" fill="#fff"/>
+    <rect x="870" y="195" width="154" height="13" rx="4" fill="#b7dafb"/>
+    <rect x="870" y="223" width="66" height="14" rx="4" fill="#fff"/>
+    <rect x="1125" y="137" width="101" height="113" rx="10" fill="#f2f6fc" stroke="#dce8f6"/>
+    <rect x="1141" y="155" width="45" height="6" rx="3" fill="#6b8eb4"/>
+    <rect x="1141" y="175" width="29" height="21" rx="4" fill="#1c4e87"/>
+    <rect x="1141" y="210" width="29" height="21" rx="4" fill="#1c4e87"/>
+    <rect x="852" y="265" width="118" height="52" rx="9" fill="#f3f7fb" stroke="#dde8f5"/>
+    <rect x="984" y="265" width="118" height="52" rx="9" fill="#f3f7fb" stroke="#dde8f5"/>
+    <rect x="1116" y="265" width="110" height="52" rx="9" fill="#f3f7fb" stroke="#dde8f5"/>
+    <g fill="#2366ad"><circle cx="873" cy="284" r="8"/><circle cx="1006" cy="284" r="8"/><circle cx="1137" cy="284" r="8"/></g>
+    <g fill="#96abc2"><rect x="865" y="302" width="65" height="4" rx="2"/><rect x="997" y="302" width="64" height="4" rx="2"/><rect x="1128" y="302" width="63" height="4" rx="2"/></g>
+  </g>
+  <rect x="700" y="60" width="550" height="285" rx="16" fill="none" stroke="#c7d9eb" stroke-width="2"/>
 </svg>
