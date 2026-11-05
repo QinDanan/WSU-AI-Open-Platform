@@ -83,7 +83,7 @@ const sizes = [
           problems.push('Horizontal overflow: ' + check.scrollWidth + '/' + check.bodyWidth);
         if (check.active !== 'page-' + route) problems.push('Route did not render: ' + check.active);
         if (check.images.some(img => !img.loaded)) problems.push('Broken image in visible UI');
-        if (route === 'chat' && (!check.chatSwitch || check.chatSwitch.buttons !== 2
+        if (route === 'chat' && (!check.chatSwitch || check.chatSwitch.buttons !== 3
           || check.chatSwitch.left < -1 || check.chatSwitch.right > size.width + 1))
           problems.push('Chat mode selector is clipped or missing: ' + JSON.stringify(check.chatSwitch));
         if (size.width <= 700 && (!check.searchIconOffset ||
