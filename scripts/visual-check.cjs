@@ -46,7 +46,19 @@ const sizes = [
                 deltaY: Math.round(((own.top + own.bottom) - (parent.top + parent.bottom)) / 2),
               };
             });
+          const searchButton = document.querySelector('#global-search-trigger');
+          const searchGlyph = searchButton?.querySelector('svg');
+          let searchIconOffset = null;
+          if (searchButton && searchGlyph && visible(searchButton) && visible(searchGlyph)) {
+            const buttonRect = searchButton.getBoundingClientRect();
+            const glyphRect = searchGlyph.getBoundingClientRect();
+            searchIconOffset = {
+              x: +((glyphRect.left + glyphRect.width / 2) - (buttonRect.left + buttonRect.width / 2)).toFixed(2),
+              y: +((glyphRect.top + glyphRect.height / 2) - (buttonRect.top + buttonRect.height / 2)).toFixed(2),
+            };
+          }
           return {
+            searchIconOffset,
             viewport: innerWidth, scrollWidth: document.documentElement.scrollWidth,
             bodyWidth: document.body.scrollWidth,
             active: active?.id || '',
@@ -58,6 +70,9 @@ const sizes = [
           problems.push('Horizontal overflow: ' + check.scrollWidth + '/' + check.bodyWidth);
         if (check.active !== 'page-' + route) problems.push('Route did not render: ' + check.active);
         if (check.images.some(img => !img.loaded)) problems.push('Broken image in visible UI');
+        if (size.width <= 700 && (!check.searchIconOffset ||
+          Math.abs(check.searchIconOffset.x) > 1 || Math.abs(check.searchIconOffset.y) > 1))
+          problems.push('Search icon off-center: ' + JSON.stringify(check.searchIconOffset));
         if (check.positions.some(p => Math.abs(p.deltaX) > 3 || Math.abs(p.deltaY) > 3))
           problems.push('Icon not centered');
         report.pages.push({ ...size, route, check, problems });
