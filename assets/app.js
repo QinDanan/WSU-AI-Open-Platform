@@ -21,7 +21,14 @@
   }
   let activeNote=notes[0]?.id || null, docPreview=false, taskFilter='all',activeTool='grades',appFilter='全部', appQuery='',knowledgeFilter='全部',knowledgeQuery='';
   let settings=safeLoad('settings',{endpoint:'',model:'deepseek-chat'});if(!settings || typeof settings!=='object')settings={endpoint:'',model:'deepseek-chat'};
-  let chatMode=safeLoad('chatMode','free')==='api'?'api':'free';
+  let chatMode=safeLoad('chatMode','guest');
+  if(!['guest','free','api'].includes(chatMode))chatMode='guest';
+  try {
+    if(localStorage.getItem('syai:guestModeMigrationV1')!=='true'){
+      if(chatMode==='free')chatMode='guest';
+      safeSave('chatMode',chatMode);localStorage.setItem('syai:guestModeMigrationV1','true');
+    }
+  }catch{chatMode='guest'}
   let gatewayToken='';
   let threads=safeLoad('threads',[]);if(!Array.isArray(threads))threads=[];
   let activeThread=threads[0]?.id || null;
@@ -146,11 +153,11 @@
   function resetTimer(){time.running=false;clearInterval(time.tick);time.remaining=time.mode==='focus'?1500:300;paintTimer()}
   function toggleTimer(){if(time.running){clearInterval(time.tick);time.running=false;time.remaining=Math.max(0,Math.ceil((time.deadline-Date.now())/1000));paintTimer();return}time.running=true;time.deadline=Date.now()+time.remaining*1000;time.tick=setInterval(()=>{time.remaining=Math.max(0,Math.ceil((time.deadline-Date.now())/1000));paintTimer();if(time.remaining===0){clearInterval(time.tick);time.running=false;toast(time.mode==='focus'?'专注时间结束，休息一下':'休息结束，可以继续学习');paintTimer()}},250);paintTimer()}
 
-  /* AI conversations — independent free (Puter) and private API channels */
+  /* AI conversations — guest inference, Puter account, and personal API */
   let sendingChat=false, puterSdkFailed=false;
   const apiEndpoint=()=>String(settings.endpoint||'').trim();
   const apiConnected=()=>/^https:\/\//.test(apiEndpoint()) || /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?/.test(apiEndpoint());
-  const selectedMode=()=>chatMode==='api'?'api':'free';
+  const selectedMode=()=>chatMode;
   const inMode=t=>(t.mode||'api')===selectedMode();
   const modeThreads=()=>threads.filter(inMode);
   const currentThread=()=>threads.find(t=>t.id===activeThread&&inMode(t));
@@ -178,11 +185,12 @@
     sdkScript.addEventListener('error',()=>{puterSdkFailed=true;updateFreeAccount()});
   }
   function setChatMode(next){
-    chatMode=next==='api'?'api':'free';
+    chatMode=['guest','free','api'].includes(next)?next:'guest';
     safeSave('chatMode',chatMode);
     activeThread=modeThreads()[0]?.id||null;
     renderChat();
   }
+  $('chat-mode-guest').onclick=()=>setChatMode('guest');
   $('chat-mode-free').onclick=()=>setChatMode('free');
   $('chat-mode-api').onclick=()=>setChatMode('api');
   $('puter-connect').onclick=()=>{
@@ -202,23 +210,26 @@
     persistThreads();renderChat();toast('本地会话已清空');
   };
   function updateModeUi(){
-    const free=selectedMode()==='free';
-    $('chat-mode-free').classList.toggle('active',free);
-    $('chat-mode-api').classList.toggle('active',!free);
-    $('chat-mode-free').setAttribute('aria-pressed',String(free));
-    $('chat-mode-api').setAttribute('aria-pressed',String(!free));
+    const guest=selectedMode()==='guest',free=selectedMode()==='free',api=selectedMode()==='api';
+    for(const [id,enabled] of [['chat-mode-guest',guest],['chat-mode-free',free],['chat-mode-api',api]]){
+      $(id).classList.toggle('active',enabled);
+      $(id).setAttribute('aria-pressed',String(enabled));
+    }
+    $('guest-channel-note').hidden=!guest;
     $('free-account-row').hidden=!free;
-    $('chat-provider-info').textContent=free
-      ?'Puter.js · 首次使用需登录 Puter，免费月度额度用完可自行决定是否升级'
-      :'自定义 API · 使用你部署的服务端网关及所选模型';
-    $('chat-configure').textContent=free?'API 设置':'配置连接';
-    $('chat-foot').textContent=free
-      ?'免费额度按 Puter 账号计算；会话记录只保存在当前浏览器。'
+    $('chat-provider-info').textContent=guest
+      ?'Murakumo · 无需登录或 API Key · 模型 Mishima'
+      :free?'Puter.js · 首次使用可能需要登录 Puter'
+      :'自定义 API · 使用个人服务端网关及模型';
+    $('chat-configure').style.display=api?'inline-flex':'none';
+    $('chat-foot').textContent=guest
+      ?'外部模型推理 · 18 岁及以上 · 共享网络额度 · 历史仅保存在当前浏览器'
+      :free?'免费额度由 Puter 账户提供，历史仅保存在当前浏览器。'
       :'使用自定义网关；访问令牌仅保留在当前页面。';
-    const ok=free?!!sdk():apiConnected();
-    $('model-name-label').textContent=free?'Puter · 默认模型':(ok?(settings.model||'已配置模型'):'尚未配置 API');
+    const ok=guest?true:free?!!sdk():apiConnected();
+    $('model-name-label').textContent=guest?'Murakumo · Mishima':free?'Puter · 默认模型':(ok?(settings.model||'已配置模型'):'尚未配置 API');
     $('gateway-status-dot').classList.toggle('connected',ok);
-    updateFreeAccount();
+    if(free)updateFreeAccount();
   }
   function renderChat(){
     updateModeUi();
@@ -227,9 +238,11 @@
     $$('[data-thread]').forEach(b=>b.onclick=()=>{activeThread=b.dataset.thread;renderChat()});
     const thread=currentThread();
     if(!thread||!thread.messages.length){
-      const description=selectedMode()==='free'
-        ?'直接提问，首次使用请按提示登录 Puter。免费额度由 Puter 账户提供。'
-        :(apiConnected()?'通过已配置的 AI 网关进行对话。':'选择自定义 API 后，请先配置网关地址。');
+      const description=selectedMode()==='guest'
+        ?'直接提问，无需登录。使用 Murakumo 的公开免费推理服务。'
+        :selectedMode()==='free'
+          ?'首次使用请按提示登录 Puter，免费额度由账户提供。'
+          :(apiConnected()?'通过已配置的 AI 网关进行对话。':'请先配置自己的 API 网关地址。');
       $('chat-body').innerHTML='<div class="chat-intro"><span class="intro-crest"><img src="assets/school-emblem.png?v=20261105-r2" alt="校徽"></span><h2>开始新的对话</h2><p>'+escapeHTML(description)+'</p><div class="chat-prompts"><button data-chat-prompt="解释一下傅里叶变换的基本思想">解释傅里叶变换</button><button data-chat-prompt="帮我梳理一份英语学习计划">梳理英语学习计划</button><button data-chat-prompt="如何阅读一篇科研论文？">科研论文阅读方法</button><button data-chat-prompt="给我一个 Python 数据分析示例">Python 数据分析示例</button></div></div>';
       $$('[data-chat-prompt]').forEach(b=>b.onclick=()=>{$('chat-input').value=b.dataset.chatPrompt;$('chat-input').focus()});
     }else{
@@ -246,6 +259,29 @@
     if(/network|fetch.failed|Failed to fetch|ERR_|timeout/i.test(e))
       return '连接服务失败，请检查网络后重试。';
     return e.slice(0,160);
+  }
+  async function sendGuest(messages){
+    const controller=new AbortController(), timeout=setTimeout(()=>controller.abort(),90000);
+    let response;
+    try{
+      response=await fetch('https://api.murakumo.cloud/v1/chat/completions',{
+        method:'POST',
+        mode:'cors',
+        credentials:'omit',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          model:'mishima',stream:false,max_tokens:600,
+          messages:messages.slice(-12).map(m=>({role:m.role,content:String(m.content||'').slice(0,3000)}))
+        }),
+        signal:controller.signal
+      });
+    }finally{clearTimeout(timeout)}
+    const payload=await response.json().catch(()=>({}));
+    if(response.status===429)throw new Error('当前网络免费额度已用完或服务繁忙，请稍后重试');
+    if(!response.ok)throw new Error(typeof payload.error==='string'?payload.error:'HTTP '+response.status);
+    const answer=payload.choices?.[0]?.message?.content;
+    if(typeof answer!=='string'||!answer.trim())throw new Error('试用模型未返回文本回答');
+    return answer.trim();
   }
   async function sendFree(messages){
     const client=sdk();
@@ -304,7 +340,7 @@
     loader.innerHTML='<span class="message-avatar">SY</span><div class="message-content">正在生成回复…</div>';
     $('chat-body').appendChild(loader);$('chat-body').scrollTop=$('chat-body').scrollHeight;
     try{
-      const answer=modeAtSend==='free'?await sendFree(history):await sendApi(history);
+      const answer=modeAtSend==='guest'?await sendGuest(history):modeAtSend==='free'?await sendFree(history):await sendApi(history);
       thread.messages.push({role:'assistant',content:answer});persistThreads();
     }catch(error){
       const message=displayChatError(error);
