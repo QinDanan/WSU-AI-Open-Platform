@@ -1,5 +1,5 @@
 {
-  "testedAt": "2026-11-05T06:56:09.816Z",
+  "testedAt": "2026-11-05T07:06:19.005Z",
   "pages": [
     {
       "name": "small",
@@ -7,6 +7,10 @@
       "height": 760,
       "route": "dashboard",
       "check": {
+        "searchIconOffset": {
+          "x": 0,
+          "y": 0
+        },
         "viewport": 320,
         "scrollWidth": 320,
         "bodyWidth": 320,
@@ -80,6 +84,10 @@
       "height": 760,
       "route": "chat",
       "check": {
+        "searchIconOffset": {
+          "x": 0,
+          "y": 0
+        },
         "viewport": 320,
         "scrollWidth": 320,
         "bodyWidth": 320,
@@ -117,6 +125,10 @@
       "height": 760,
       "route": "knowledge",
       "check": {
+        "searchIconOffset": {
+          "x": 0,
+          "y": 0
+        },
         "viewport": 320,
         "scrollWidth": 320,
         "bodyWidth": 320,
@@ -150,6 +162,10 @@
       "height": 760,
       "route": "docs",
       "check": {
+        "searchIconOffset": {
+          "x": 0,
+          "y": 0
+        },
         "viewport": 320,
         "scrollWidth": 320,
         "bodyWidth": 320,
@@ -187,6 +203,10 @@
       "height": 760,
       "route": "planner",
       "check": {
+        "searchIconOffset": {
+          "x": 0,
+          "y": 0
+        },
         "viewport": 320,
         "scrollWidth": 320,
         "bodyWidth": 320,
@@ -220,6 +240,10 @@
       "height": 760,
       "route": "tools",
       "check": {
+        "searchIconOffset": {
+          "x": 0,
+          "y": 0
+        },
         "viewport": 320,
         "scrollWidth": 320,
         "bodyWidth": 320,
@@ -253,6 +277,10 @@
       "height": 760,
       "route": "apps",
       "check": {
+        "searchIconOffset": {
+          "x": 0,
+          "y": 0
+        },
         "viewport": 320,
         "scrollWidth": 320,
         "bodyWidth": 320,
@@ -318,6 +346,10 @@
       "height": 760,
       "route": "about",
       "check": {
+        "searchIconOffset": {
+          "x": 0,
+          "y": 0
+        },
         "viewport": 320,
         "scrollWidth": 320,
         "bodyWidth": 320,
@@ -351,6 +383,10 @@
       "height": 844,
       "route": "dashboard",
       "check": {
+        "searchIconOffset": {
+          "x": 0,
+          "y": 0
+        },
         "viewport": 390,
         "scrollWidth": 390,
         "bodyWidth": 390,
@@ -424,6 +460,10 @@
       "height": 844,
       "route": "chat",
       "check": {
+        "searchIconOffset": {
+          "x": 0,
+          "y": 0
+        },
         "viewport": 390,
         "scrollWidth": 390,
         "bodyWidth": 390,
@@ -461,6 +501,10 @@
       "height": 844,
       "route": "knowledge",
       "check": {
+        "searchIconOffset": {
+          "x": 0,
+          "y": 0
+        },
         "viewport": 390,
         "scrollWidth": 390,
         "bodyWidth": 390,
@@ -494,6 +538,10 @@
       "height": 844,
       "route": "docs",
       "check": {
+        "searchIconOffset": {
+          "x": 0,
+          "y": 0
+        },
         "viewport": 390,
         "scrollWidth": 390,
         "bodyWidth": 390,
@@ -531,6 +579,10 @@
       "height": 844,
       "route": "planner",
       "check": {
+        "searchIconOffset": {
+          "x": 0,
+          "y": 0
+        },
         "viewport": 390,
         "scrollWidth": 390,
         "bodyWidth": 390,
@@ -564,6 +616,10 @@
       "height": 844,
       "route": "tools",
       "check": {
+        "searchIconOffset": {
+          "x": 0,
+          "y": 0
+        },
         "viewport": 390,
         "scrollWidth": 390,
         "bodyWidth": 390,
@@ -597,6 +653,10 @@
       "height": 844,
       "route": "apps",
       "check": {
+        "searchIconOffset": {
+          "x": 0,
+          "y": 0
+        },
         "viewport": 390,
         "scrollWidth": 390,
         "bodyWidth": 390,
@@ -662,6 +722,10 @@
       "height": 844,
       "route": "about",
       "check": {
+        "searchIconOffset": {
+          "x": 0,
+          "y": 0
+        },
         "viewport": 390,
         "scrollWidth": 390,
         "bodyWidth": 390,
@@ -695,6 +759,10 @@
       "height": 1024,
       "route": "dashboard",
       "check": {
+        "searchIconOffset": {
+          "x": -89,
+          "y": 0
+        },
         "viewport": 768,
         "scrollWidth": 768,
         "bodyWidth": 768,
@@ -768,6 +836,10 @@
       "height": 1024,
       "route": "chat",
       "check": {
+        "searchIconOffset": {
+          "x": -89,
+          "y": 0
+        },
         "viewport": 768,
         "scrollWidth": 768,
         "bodyWidth": 768,
@@ -809,6 +881,10 @@
       "height": 1024,
       "route": "knowledge",
       "check": {
+        "searchIconOffset": {
+          "x": -89,
+          "y": 0
+        },
         "viewport": 768,
         "scrollWidth": 768,
         "bodyWidth": 768,
@@ -842,6 +918,10 @@
       "height": 1024,
       "route": "docs",
       "check": {
+        "searchIconOffset": {
+          "x": -89,
+          "y": 0
+        },
         "viewport": 768,
         "scrollWidth": 768,
         "bodyWidth": 768,
@@ -879,6 +959,10 @@
       "height": 1024,
       "route": "planner",
       "check": {
+        "searchIconOffset": {
+          "x": -89,
+          "y": 0
+        },
         "viewport": 768,
         "scrollWidth": 768,
         "bodyWidth": 768,
@@ -912,6 +996,10 @@
       "height": 1024,
       "route": "tools",
       "check": {
+        "searchIconOffset": {
+          "x": -89,
+          "y": 0
+        },
         "viewport": 768,
         "scrollWidth": 768,
         "bodyWidth": 768,
@@ -945,6 +1033,10 @@
       "height": 1024,
       "route": "apps",
       "check": {
+        "searchIconOffset": {
+          "x": -89,
+          "y": 0
+        },
         "viewport": 768,
         "scrollWidth": 768,
         "bodyWidth": 768,
@@ -1010,6 +1102,10 @@
       "height": 1024,
       "route": "about",
       "check": {
+        "searchIconOffset": {
+          "x": -89,
+          "y": 0
+        },
         "viewport": 768,
         "scrollWidth": 768,
         "bodyWidth": 768,
@@ -1043,6 +1139,10 @@
       "height": 900,
       "route": "dashboard",
       "check": {
+        "searchIconOffset": {
+          "x": -89,
+          "y": 0
+        },
         "viewport": 1440,
         "scrollWidth": 1440,
         "bodyWidth": 1440,
@@ -1108,6 +1208,10 @@
       "height": 900,
       "route": "chat",
       "check": {
+        "searchIconOffset": {
+          "x": -89,
+          "y": 0
+        },
         "viewport": 1440,
         "scrollWidth": 1440,
         "bodyWidth": 1440,
@@ -1141,6 +1245,10 @@
       "height": 900,
       "route": "knowledge",
       "check": {
+        "searchIconOffset": {
+          "x": -89,
+          "y": 0
+        },
         "viewport": 1440,
         "scrollWidth": 1440,
         "bodyWidth": 1440,
@@ -1166,6 +1274,10 @@
       "height": 900,
       "route": "docs",
       "check": {
+        "searchIconOffset": {
+          "x": -89,
+          "y": 0
+        },
         "viewport": 1440,
         "scrollWidth": 1440,
         "bodyWidth": 1440,
@@ -1195,6 +1307,10 @@
       "height": 900,
       "route": "planner",
       "check": {
+        "searchIconOffset": {
+          "x": -89,
+          "y": 0
+        },
         "viewport": 1440,
         "scrollWidth": 1440,
         "bodyWidth": 1440,
@@ -1220,6 +1336,10 @@
       "height": 900,
       "route": "tools",
       "check": {
+        "searchIconOffset": {
+          "x": -89,
+          "y": 0
+        },
         "viewport": 1440,
         "scrollWidth": 1440,
         "bodyWidth": 1440,
@@ -1245,6 +1365,10 @@
       "height": 900,
       "route": "apps",
       "check": {
+        "searchIconOffset": {
+          "x": -89,
+          "y": 0
+        },
         "viewport": 1440,
         "scrollWidth": 1440,
         "bodyWidth": 1440,
@@ -1302,6 +1426,10 @@
       "height": 900,
       "route": "about",
       "check": {
+        "searchIconOffset": {
+          "x": -89,
+          "y": 0
+        },
         "viewport": 1440,
         "scrollWidth": 1440,
         "bodyWidth": 1440,
