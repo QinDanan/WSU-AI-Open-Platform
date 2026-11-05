@@ -95,7 +95,7 @@
           "width": 266,
           "left": 27,
           "right": 293,
-          "buttons": 3
+          "buttons": 2
         },
         "searchIconTag": "svg",
         "searchIconPosition": "absolute",
@@ -129,7 +129,9 @@
           }
         ]
       },
-      "problems": []
+      "problems": [
+        "Chat mode selector is clipped or missing: {\"width\":266,\"left\":27,\"right\":293,\"buttons\":2}"
+      ]
     },
     {
       "name": "small",
@@ -508,7 +510,7 @@
           "width": 326,
           "left": 32,
           "right": 358,
-          "buttons": 3
+          "buttons": 2
         },
         "searchIconTag": "svg",
         "searchIconPosition": "absolute",
@@ -542,7 +544,9 @@
           }
         ]
       },
-      "problems": []
+      "problems": [
+        "Chat mode selector is clipped or missing: {\"width\":326,\"left\":32,\"right\":358,\"buttons\":2}"
+      ]
     },
     {
       "name": "mobile",
@@ -918,10 +922,10 @@
           "y": 0
         },
         "chatSwitch": {
-          "width": 250,
+          "width": 186,
           "left": 43,
-          "right": 293,
-          "buttons": 3
+          "right": 229,
+          "buttons": 2
         },
         "searchIconTag": "svg",
         "searchIconPosition": "static",
@@ -959,7 +963,9 @@
           }
         ]
       },
-      "problems": []
+      "problems": [
+        "Chat mode selector is clipped or missing: {\"width\":186,\"left\":43,\"right\":229,\"buttons\":2}"
+      ]
     },
     {
       "name": "tablet",
@@ -1327,10 +1333,10 @@
           "y": 0
         },
         "chatSwitch": {
-          "width": 250,
+          "width": 186,
           "left": 341,
-          "right": 591,
-          "buttons": 3
+          "right": 527,
+          "buttons": 2
         },
         "searchIconTag": "svg",
         "searchIconPosition": "static",
@@ -1360,7 +1366,9 @@
           }
         ]
       },
-      "problems": []
+      "problems": [
+        "Chat mode selector is clipped or missing: {\"width\":186,\"left\":341,\"right\":527,\"buttons\":2}"
+      ]
     },
     {
       "name": "desktop",
@@ -1597,5 +1605,34 @@
       "problems": []
     }
   ],
-  "problems": []
+  "problems": [
+    {
+      "size": "small",
+      "route": "chat",
+      "problems": [
+        "Chat mode selector is clipped or missing: {\"width\":266,\"left\":27,\"right\":293,\"buttons\":2}"
+      ]
+    },
+    {
+      "size": "mobile",
+      "route": "chat",
+      "problems": [
+        "Chat mode selector is clipped or missing: {\"width\":326,\"left\":32,\"right\":358,\"buttons\":2}"
+      ]
+    },
+    {
+      "size": "tablet",
+      "route": "chat",
+      "problems": [
+        "Chat mode selector is clipped or missing: {\"width\":186,\"left\":43,\"right\":229,\"buttons\":2}"
+      ]
+    },
+    {
+      "size": "desktop",
+      "route": "chat",
+      "problems": [
+        "Chat mode selector is clipped or missing: {\"width\":186,\"left\":341,\"right\":527,\"buttons\":2}"
+      ]
+    }
+  ]
 }
