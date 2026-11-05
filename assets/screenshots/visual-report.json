@@ -1,0 +1,1326 @@
+{
+  "testedAt": "2026-11-05T06:56:09.816Z",
+  "pages": [
+    {
+      "name": "small",
+      "width": 320,
+      "height": 760,
+      "route": "dashboard",
+      "check": {
+        "viewport": 320,
+        "scrollWidth": 320,
+        "bodyWidth": 320,
+        "active": "page-dashboard",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    },
+    {
+      "name": "small",
+      "width": 320,
+      "height": 760,
+      "route": "chat",
+      "check": {
+        "viewport": 320,
+        "scrollWidth": 320,
+        "bodyWidth": 320,
+        "active": "page-chat",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    },
+    {
+      "name": "small",
+      "width": 320,
+      "height": 760,
+      "route": "knowledge",
+      "check": {
+        "viewport": 320,
+        "scrollWidth": 320,
+        "bodyWidth": 320,
+        "active": "page-knowledge",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    },
+    {
+      "name": "small",
+      "width": 320,
+      "height": 760,
+      "route": "docs",
+      "check": {
+        "viewport": 320,
+        "scrollWidth": 320,
+        "bodyWidth": 320,
+        "active": "page-docs",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    },
+    {
+      "name": "small",
+      "width": 320,
+      "height": 760,
+      "route": "planner",
+      "check": {
+        "viewport": 320,
+        "scrollWidth": 320,
+        "bodyWidth": 320,
+        "active": "page-planner",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    },
+    {
+      "name": "small",
+      "width": 320,
+      "height": 760,
+      "route": "tools",
+      "check": {
+        "viewport": 320,
+        "scrollWidth": 320,
+        "bodyWidth": 320,
+        "active": "page-tools",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    },
+    {
+      "name": "small",
+      "width": 320,
+      "height": 760,
+      "route": "apps",
+      "check": {
+        "viewport": 320,
+        "scrollWidth": 320,
+        "bodyWidth": 320,
+        "active": "page-apps",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    },
+    {
+      "name": "small",
+      "width": 320,
+      "height": 760,
+      "route": "about",
+      "check": {
+        "viewport": 320,
+        "scrollWidth": 320,
+        "bodyWidth": 320,
+        "active": "page-about",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844,
+      "route": "dashboard",
+      "check": {
+        "viewport": 390,
+        "scrollWidth": 390,
+        "bodyWidth": 390,
+        "active": "page-dashboard",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844,
+      "route": "chat",
+      "check": {
+        "viewport": 390,
+        "scrollWidth": 390,
+        "bodyWidth": 390,
+        "active": "page-chat",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844,
+      "route": "knowledge",
+      "check": {
+        "viewport": 390,
+        "scrollWidth": 390,
+        "bodyWidth": 390,
+        "active": "page-knowledge",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844,
+      "route": "docs",
+      "check": {
+        "viewport": 390,
+        "scrollWidth": 390,
+        "bodyWidth": 390,
+        "active": "page-docs",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844,
+      "route": "planner",
+      "check": {
+        "viewport": 390,
+        "scrollWidth": 390,
+        "bodyWidth": 390,
+        "active": "page-planner",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844,
+      "route": "tools",
+      "check": {
+        "viewport": 390,
+        "scrollWidth": 390,
+        "bodyWidth": 390,
+        "active": "page-tools",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844,
+      "route": "apps",
+      "check": {
+        "viewport": 390,
+        "scrollWidth": 390,
+        "bodyWidth": 390,
+        "active": "page-apps",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844,
+      "route": "about",
+      "check": {
+        "viewport": 390,
+        "scrollWidth": 390,
+        "bodyWidth": 390,
+        "active": "page-about",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    },
+    {
+      "name": "tablet",
+      "width": 768,
+      "height": 1024,
+      "route": "dashboard",
+      "check": {
+        "viewport": 768,
+        "scrollWidth": 768,
+        "bodyWidth": 768,
+        "active": "page-dashboard",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    },
+    {
+      "name": "tablet",
+      "width": 768,
+      "height": 1024,
+      "route": "chat",
+      "check": {
+        "viewport": 768,
+        "scrollWidth": 768,
+        "bodyWidth": 768,
+        "active": "page-chat",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    },
+    {
+      "name": "tablet",
+      "width": 768,
+      "height": 1024,
+      "route": "knowledge",
+      "check": {
+        "viewport": 768,
+        "scrollWidth": 768,
+        "bodyWidth": 768,
+        "active": "page-knowledge",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    },
+    {
+      "name": "tablet",
+      "width": 768,
+      "height": 1024,
+      "route": "docs",
+      "check": {
+        "viewport": 768,
+        "scrollWidth": 768,
+        "bodyWidth": 768,
+        "active": "page-docs",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    },
+    {
+      "name": "tablet",
+      "width": 768,
+      "height": 1024,
+      "route": "planner",
+      "check": {
+        "viewport": 768,
+        "scrollWidth": 768,
+        "bodyWidth": 768,
+        "active": "page-planner",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    },
+    {
+      "name": "tablet",
+      "width": 768,
+      "height": 1024,
+      "route": "tools",
+      "check": {
+        "viewport": 768,
+        "scrollWidth": 768,
+        "bodyWidth": 768,
+        "active": "page-tools",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    },
+    {
+      "name": "tablet",
+      "width": 768,
+      "height": 1024,
+      "route": "apps",
+      "check": {
+        "viewport": 768,
+        "scrollWidth": 768,
+        "bodyWidth": 768,
+        "active": "page-apps",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    },
+    {
+      "name": "tablet",
+      "width": 768,
+      "height": 1024,
+      "route": "about",
+      "check": {
+        "viewport": 768,
+        "scrollWidth": 768,
+        "bodyWidth": 768,
+        "active": "page-about",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    },
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900,
+      "route": "dashboard",
+      "check": {
+        "viewport": 1440,
+        "scrollWidth": 1440,
+        "bodyWidth": 1440,
+        "active": "page-dashboard",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    },
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900,
+      "route": "chat",
+      "check": {
+        "viewport": 1440,
+        "scrollWidth": 1440,
+        "bodyWidth": 1440,
+        "active": "page-chat",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          },
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    },
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900,
+      "route": "knowledge",
+      "check": {
+        "viewport": 1440,
+        "scrollWidth": 1440,
+        "bodyWidth": 1440,
+        "active": "page-knowledge",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    },
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900,
+      "route": "docs",
+      "check": {
+        "viewport": 1440,
+        "scrollWidth": 1440,
+        "bodyWidth": 1440,
+        "active": "page-docs",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    },
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900,
+      "route": "planner",
+      "check": {
+        "viewport": 1440,
+        "scrollWidth": 1440,
+        "bodyWidth": 1440,
+        "active": "page-planner",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    },
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900,
+      "route": "tools",
+      "check": {
+        "viewport": 1440,
+        "scrollWidth": 1440,
+        "bodyWidth": 1440,
+        "active": "page-tools",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    },
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900,
+      "route": "apps",
+      "check": {
+        "viewport": 1440,
+        "scrollWidth": 1440,
+        "bodyWidth": 1440,
+        "active": "page-apps",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          },
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    },
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900,
+      "route": "about",
+      "check": {
+        "viewport": 1440,
+        "scrollWidth": 1440,
+        "bodyWidth": 1440,
+        "active": "page-about",
+        "images": [
+          {
+            "src": "http://127.0.0.1:4173/assets/school-emblem.png?v=20261105-r2",
+            "loaded": true
+          }
+        ],
+        "positions": [
+          {
+            "deltaX": 0,
+            "deltaY": 0
+          }
+        ]
+      },
+      "problems": []
+    }
+  ],
+  "problems": []
+}
