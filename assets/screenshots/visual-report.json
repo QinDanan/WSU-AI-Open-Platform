@@ -95,7 +95,7 @@
           "width": 266,
           "left": 27,
           "right": 293,
-          "buttons": 2
+          "buttons": 3
         },
         "searchIconTag": "svg",
         "searchIconPosition": "absolute",
@@ -508,7 +508,7 @@
           "width": 326,
           "left": 32,
           "right": 358,
-          "buttons": 2
+          "buttons": 3
         },
         "searchIconTag": "svg",
         "searchIconPosition": "absolute",
@@ -918,10 +918,10 @@
           "y": 0
         },
         "chatSwitch": {
-          "width": 174,
+          "width": 250,
           "left": 43,
-          "right": 217,
-          "buttons": 2
+          "right": 293,
+          "buttons": 3
         },
         "searchIconTag": "svg",
         "searchIconPosition": "static",
@@ -1327,10 +1327,10 @@
           "y": 0
         },
         "chatSwitch": {
-          "width": 174,
+          "width": 250,
           "left": 341,
-          "right": 515,
-          "buttons": 2
+          "right": 591,
+          "buttons": 3
         },
         "searchIconTag": "svg",
         "searchIconPosition": "static",
