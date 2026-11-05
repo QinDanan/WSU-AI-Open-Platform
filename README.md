@@ -23,14 +23,14 @@
 
 ## 项目
 
-**首义 AI** 是围绕武昌首义学院学习场景开发的 Web 工作台，集成校园公开资料检索、Markdown 笔记、任务计划、成绩计算与文本处理。AI 对话提供免登录试用、Puter 与自定义 API 三种通道。
+**首义 AI** 是围绕武昌首义学院学习场景开发的 Web 工作台，集成校园公开资料检索、Markdown 笔记、任务计划、成绩计算与文本处理。AI 对话提供免登录试用与自定义 API 两种通道。
 
 - **访问地址**　https://cha290196-hue.github.io/WSU-AI-Open-Platform/
 - **部署方式**　静态页面通过 GitHub Actions 发布至 GitHub Pages
 - **数据存储**　笔记、任务、会话记录保存在使用者当前浏览器
 - **项目依赖**　前端原生 HTML / CSS / JavaScript，无需安装 Node.js
 - **免登录问答**　Murakumo 公共推理模型；学生无需账号、手机号或 API Key
-- **其他通道**　Puter.js 按需加载；自定义 API 网关可选
+- **可选接入**　支持连接个人部署的 OpenAI-compatible API 网关
 
 ## 界面
 
@@ -68,7 +68,6 @@
   <tr><td><b>Planner</b><br>学习计划</td><td>任务创建、截止日期、状态筛选、完成进度</td><td>浏览器</td></tr>
   <tr><td><b>Utilities</b><br>实用工具</td><td>成绩加权计算、JSON 格式化、文本统计、专注计时</td><td>浏览器</td></tr>
   <tr><td><b>Guest AI</b><br>免登录试用</td><td>直接使用 Murakumo 的 Mishima 模型，不需要注册或 API Key</td><td>浏览器 / Murakumo</td></tr>
-  <tr><td><b>Puter</b><br>账户通道</td><td>按需加载 Puter.js，使用个人账户额度</td><td>浏览器 / Puter</td></tr>
   <tr><td><b>Model Gateway</b><br>自定义 API</td><td>独立会话、网关地址、模型名称、访问令牌配置</td><td>独立网关</td></tr>
 </table>
 
@@ -88,29 +87,27 @@
 | 通道 | 访问方式 | 限制 |
 | --- | --- | --- |
 | **免登录试用（默认）** | 浏览器直接请求 [Murakumo](https://murakumo.cloud/docs) 的 `mishima` 文本模型；无需账号或密钥 | 免费容量按网络共享，繁忙可能返回 429 |
-| **Puter** | 按需加载 [Puter.js](https://docs.puter.com/AI/chat/)，首次使用可能需要授权 | 使用个人账户额度 |
 | **自定义 API** | 在设置中配置个人服务端网关和模型 | 按自有服务的规则 |
 
 匿名接口已用真实 POST 请求验证返回 HTTP 200 与模型回复，并通过 GitHub Pages 来源的 CORS 预检。测试配置见 [provider probe workflow](.github/workflows/probe-free-ai.yml)。
 
 Murakumo 公布的免费限制为每个网络、每个文本模型每日 100 次，并受共享 GPU 容量影响。该试用服务的使用条款要求年满 18 岁。匿名调用不收集平台账号，但网络连接会向第三方透露请求来源，**输入的聊天内容会交给第三方模型处理**。不要提交学籍、成绩、身份信息或未公开科研材料。用于个人试用，不将此通道视作全校正式服务的容量保证。
 
-三种通道有独立的本地会话记录。仅选择 Puter 后才加载其 SDK；自定义 API 密钥仍保存在用户自己的服务器端。
+免登录与自定义 API 两种通道的会话分别保存。自定义 API 的上游密钥保存在用户自己的服务器端。
 
 ## 技术实现
 
 ```text
 GitHub Pages（浏览器工作台）
   ├── 免登录 → Murakumo / Mishima（第三方免费推理）
-  ├── Puter   → Puter.js（按需加载，账户额度）
   └── 自定义 → 独立 API 网关 → 用户指定模型
 
-本地存储：笔记、任务、三种渠道各自的会话记录
+本地存储：笔记、任务、两种渠道各自的会话记录
 ```
 
 前端代码位于 [`index.html`](index.html) 和 [`assets/`](assets/)。校园公开资料与图标定义位于 [`assets/data.js`](assets/data.js)，交互逻辑位于 [`assets/app.js`](assets/app.js)。页面样式拆分为基础规则 `styles.css` 和布局修订 `polish.css`。
 
-免登录问答无需用户或开发者密钥，由 Murakumo 的公开接口处理；Puter SDK 只在选择对应通道后加载。AI 网关示例位于 [`server/worker.js`](server/worker.js)，使用 Cloudflare Workers 环境变量保存上游密钥。具体部署参数见 [`server/README.md`](server/README.md)。
+免登录问答无需用户或开发者密钥，由 Murakumo 的公开接口处理。AI 网关示例位于 [`server/worker.js`](server/worker.js)，使用 Cloudflare Workers 环境变量保存上游密钥。具体部署参数见 [`server/README.md`](server/README.md)。
 
 ## 开发与运行
 
