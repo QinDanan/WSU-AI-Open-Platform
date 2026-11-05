@@ -7,13 +7,14 @@
   <meta name="description" content="首义 AI · 武昌首义学院 AI 工作台，集校园资料检索、学习规划、文档工具与 AI 对话于一体。">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="assets/polish.css?v=20261105-r2">
   <title>首义 AI — 工作台</title>
 </head>
 <body>
   <div id="app" class="app-shell">
     <aside class="sidebar" id="sidebar" aria-label="主导航">
       <a class="brand" href="#/dashboard" aria-label="首义 AI 工作台">
-        <span class="crest"><img src="assets/school-emblem.png" alt="武昌首义学院校徽" onerror="this.onerror=null;this.src='https://jobs.ac.cn/storage/companies/wuchang-shouyi-university.png'"></span>
+        <span class="crest"><img src="assets/school-emblem.png?v=20261105-r2" alt="武昌首义学院校徽"></span>
         <span class="brand-words"><b>首义 <em>AI</em></b><small>WUCHANG SHOUYI UNIVERSITY</small></span>
       </a>
       <div class="sidebar-sep"></div>
@@ -31,7 +32,7 @@
     <div class="mobile-scrim" id="mobile-scrim"></div>
     <div class="workspace">
       <header class="topbar">
-        <div class="top-left"><button class="icon-button mobile-toggle" id="mobile-toggle" aria-label="打开菜单"><span data-icon="menu"></span></button><span class="crumb-root">Workspace</span><span class="crumb-slash">/</span><span id="page-crumb" class="crumb-current">工作台</span></div>
+        <div class="top-left"><button class="icon-button mobile-toggle" id="mobile-toggle" aria-label="打开菜单"><span data-icon="menu"></span></button><a class="mobile-brand" href="#/dashboard"><img src="assets/school-emblem.png?v=20261105-r2" width="30" height="30" alt="武昌首义学院校徽">首义 AI</a><span class="crumb-root">Workspace</span><span class="crumb-slash">/</span><span id="page-crumb" class="crumb-current">工作台</span></div>
         <div class="top-right"><span class="top-date" id="top-date"></span><div class="top-divider"></div><button id="global-search-trigger" class="search-shortcut"><span data-icon="search"></span>搜索功能或校园信息 <kbd>⌘ K</kbd></button><button class="icon-button" title="设置" id="settings-trigger" aria-label="打开设置"><span data-icon="settings-2"></span></button><span class="top-avatar">SY</span></div>
       </header>
       <main class="content">
@@ -55,7 +56,7 @@
 
         <section class="page" id="page-chat">
           <div class="page-heading page-heading-compact"><div><div class="overline"><span class="overline-stroke"></span> MODEL ACCESS</div><h1>AI 对话<span class="heading-period">.</span></h1><p>支持通过独立 API 网关接入兼容 OpenAI 协议的模型。</p></div><button id="new-chat" class="btn btn-blue"><span data-icon="plus"></span> 新对话</button></div>
-          <div class="chat-layout"><div class="chat-surface"><div class="chat-toolbar"><div class="model-label"><span class="status-dot" id="gateway-status-dot"></span><span id="model-name-label">未连接模型</span></div><button class="tiny-button" id="chat-configure"><span data-icon="sliders-horizontal"></span> 配置连接</button></div><div class="chat-body" id="chat-body"><div class="chat-intro" id="chat-intro"><span class="intro-crest"><img src="assets/school-emblem.png" alt="校徽" onerror="this.onerror=null;this.src='https://jobs.ac.cn/storage/companies/wuchang-shouyi-university.png'"></span><h2>开始新的对话</h2><p>在设置中填写已部署的 AI 网关地址后，即可直接对话。模型密钥由服务器管理。</p><div class="chat-prompts" id="chat-prompts"></div></div></div><form id="chat-form" class="chat-composer"><textarea id="chat-input" rows="2" placeholder="输入问题，Enter 发送 · Shift+Enter 换行" aria-label="聊天输入"></textarea><button type="submit" class="send-button" id="send-message" aria-label="发送消息"><span data-icon="arrow-up"></span></button></form><div class="chat-foot">AI 输出需要人工核验 · 本地会话记录仅保存在此浏览器</div></div><aside class="chat-history"><div class="history-heading"><b>会话记录</b><button class="icon-button" id="chat-clear-all" title="清空历史"><span data-icon="trash-2"></span></button></div><div id="conversation-list" class="history-list"></div><div class="history-aside-foot"><span data-icon="shield-check"></span> API Key 不保存在网页中</div></aside></div>
+          <div class="chat-layout"><div class="chat-surface"><div class="chat-toolbar"><div class="model-label"><span class="status-dot" id="gateway-status-dot"></span><span id="model-name-label">未连接模型</span></div><button class="tiny-button" id="chat-configure"><span data-icon="sliders-horizontal"></span> 配置连接</button></div><div class="chat-body" id="chat-body"><div class="chat-intro" id="chat-intro"><span class="intro-crest"><img src="assets/school-emblem.png?v=20261105-r2" alt="校徽"></span><h2>开始新的对话</h2><p>在设置中填写已部署的 AI 网关地址后，即可直接对话。模型密钥由服务器管理。</p><div class="chat-prompts" id="chat-prompts"></div></div></div><form id="chat-form" class="chat-composer"><textarea id="chat-input" rows="2" placeholder="输入问题，Enter 发送 · Shift+Enter 换行" aria-label="聊天输入"></textarea><button type="submit" class="send-button" id="send-message" aria-label="发送消息"><span data-icon="arrow-up"></span></button></form><div class="chat-foot">AI 输出需要人工核验 · 本地会话记录仅保存在此浏览器</div></div><aside class="chat-history"><div class="history-heading"><b>会话记录</b><button class="icon-button" id="chat-clear-all" title="清空历史"><span data-icon="trash-2"></span></button></div><div id="conversation-list" class="history-list"></div><div class="history-aside-foot"><span data-icon="shield-check"></span> API Key 不保存在网页中</div></aside></div>
         </section>
 
         <section class="page" id="page-knowledge"><div class="page-heading page-heading-compact"><div><div class="overline"><span class="overline-stroke"></span> CAMPUS / KNOWLEDGE</div><h1>校园资料检索<span class="heading-period">.</span></h1><p>按关键词检索公开校情、常用服务和办事入口，结果附资料来源。</p></div></div>
