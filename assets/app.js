@@ -21,6 +21,7 @@
   }
   let activeNote=notes[0]?.id || null, docPreview=false, taskFilter='all',activeTool='grades',appFilter='全部', appQuery='',knowledgeFilter='全部',knowledgeQuery='';
   let settings=safeLoad('settings',{endpoint:'',model:'deepseek-chat'});if(!settings || typeof settings!=='object')settings={endpoint:'',model:'deepseek-chat'};
+  let chatMode=safeLoad('chatMode','free')==='api'?'api':'free';
   let gatewayToken='';
   let threads=safeLoad('threads',[]);if(!Array.isArray(threads))threads=[];
   let activeThread=threads[0]?.id || null;
@@ -145,33 +146,220 @@
   function resetTimer(){time.running=false;clearInterval(time.tick);time.remaining=time.mode==='focus'?1500:300;paintTimer()}
   function toggleTimer(){if(time.running){clearInterval(time.tick);time.running=false;time.remaining=Math.max(0,Math.ceil((time.deadline-Date.now())/1000));paintTimer();return}time.running=true;time.deadline=Date.now()+time.remaining*1000;time.tick=setInterval(()=>{time.remaining=Math.max(0,Math.ceil((time.deadline-Date.now())/1000));paintTimer();if(time.remaining===0){clearInterval(time.tick);time.running=false;toast(time.mode==='focus'?'专注时间结束，休息一下':'休息结束，可以继续学习');paintTimer()}},250);paintTimer()}
 
-  /* AI gateway & conversations */
-  function endpoint(){return String(settings.endpoint||'').trim()}
-  function connected(){return /^https:\/\//.test(endpoint()) || /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?/.test(endpoint())}
-  function newThread(){const t={id:uuid(),title:'新对话',messages:[],created:Date.now()};threads.unshift(t);activeThread=t.id;persistThreads();renderChat()}
+  /* AI conversations — independent free (Puter) and private API channels */
+  let sendingChat=false, puterSdkFailed=false;
+  const apiEndpoint=()=>String(settings.endpoint||'').trim();
+  const apiConnected=()=>/^https:\/\//.test(apiEndpoint()) || /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?/.test(apiEndpoint());
+  const selectedMode=()=>chatMode==='api'?'api':'free';
+  const inMode=t=>(t.mode||'api')===selectedMode();
+  const modeThreads=()=>threads.filter(inMode);
+  const currentThread=()=>threads.find(t=>t.id===activeThread&&inMode(t));
   function persistThreads(){safeSave('threads',threads)}
-  function currentThread(){return threads.find(t=>t.id===activeThread)}
-  $('new-chat').onclick=newThread;
-  $('chat-clear-all').onclick=()=>{if(!threads.length)return;if(!confirm('确定清空所有本地会话？'))return;threads=[];activeThread=null;persistThreads();renderChat();toast('会话记录已清空')};
-  $('chat-configure').onclick=openSettings;
-  function renderChat(){const ok=connected();$('model-name-label').textContent=ok?(settings.model||'已配置模型'):'未连接模型';$('gateway-status-dot').classList.toggle('connected',ok);
-    $('conversation-list').innerHTML=threads.length?threads.map(t=>`<button class="history-item ${t.id===activeThread?'active':''}" data-thread="${escapeHTML(t.id)}">${icon('message-square')}<span>${escapeHTML(t.title)}</span></button>`).join(''):'<div class="history-empty">没有会话记录</div>';
-    $$('[data-thread]').forEach(b=>b.onclick=()=>{activeThread=b.dataset.thread;renderChat()});
-    let t=currentThread();if(!t || !t.messages.length){$('chat-body').innerHTML=`<div class="chat-intro"><span class="intro-crest"><img src="assets/school-emblem.png?v=20261105-r2" alt="校徽"></span><h2>开始新的对话</h2><p>${ok?'输入问题，通过已配置的 AI 网关进行对话。':'在设置中填写已部署的 AI 网关地址后，即可直接对话。模型密钥由服务器管理。'}</p><div class="chat-prompts"><button data-chat-prompt="解释一下傅里叶变换的基本思想">解释傅里叶变换</button><button data-chat-prompt="帮我梳理一份英语学习计划">梳理英语学习计划</button><button data-chat-prompt="如何阅读一篇科研论文？">科研论文阅读方法</button><button data-chat-prompt="给我一个 Python 数据分析示例">Python 数据分析示例</button></div></div>`;$$('[data-chat-prompt]').forEach(b=>b.onclick=()=>{$('chat-input').value=b.dataset.chatPrompt;$('chat-input').focus()})
-    }else{$('chat-body').innerHTML=t.messages.map(m=>`<div class="chat-message ${m.role==='user'?'user':''}"><span class="message-avatar">${m.role==='user'?'我':'SY'}</span><div class="message-content">${escapeHTML(m.content)}</div></div>`).join('');$('chat-body').scrollTop=$('chat-body').scrollHeight}
+  function newThread(){
+    const t={id:uuid(),mode:selectedMode(),title:'新对话',messages:[],created:Date.now()};
+    threads.unshift(t);activeThread=t.id;persistThreads();renderChat();
   }
-  $('chat-input').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing){e.preventDefault();$('chat-form').requestSubmit()}});
-  $('chat-form').addEventListener('submit',async e=>{e.preventDefault();const input=$('chat-input'),message=input.value.trim();if(!message)return;if(!connected()){openSettings();$('settings-message').textContent='先配置可以访问的网关地址';return}let t=currentThread();if(!t){newThread();t=currentThread()}if(!t.messages.length)t.title=message.slice(0,24);t.messages.push({role:'user',content:message});input.value='';persistThreads();renderChat();$('send-message').disabled=true;
-    const loader=document.createElement('div');loader.className='chat-message';loader.innerHTML='<span class="message-avatar">SY</span><div class="message-content">正在生成回复…</div>';$('chat-body').appendChild(loader);$('chat-body').scrollTop=$('chat-body').scrollHeight;
-    try{let controller=new AbortController();let abort=setTimeout(()=>controller.abort(),60000);let response;try{response=await fetch(endpoint(),{method:'POST',headers:{'Content-Type':'application/json',...(gatewayToken?{'Authorization':'Bearer '+gatewayToken}:{})},body:JSON.stringify({model:settings.model||'deepseek-chat',messages:t.messages.slice(-24)}),signal:controller.signal})}finally{clearTimeout(abort)}let payload=await response.json().catch(()=>({}));if(!response.ok)throw new Error(payload.error||payload.message||'HTTP '+response.status);let answer=payload.choices?.[0]?.message?.content??payload.reply??payload.content;if(typeof answer!=='string'||!answer.trim())throw new Error('网关未返回有效回答');t.messages.push({role:'assistant',content:answer});persistThreads()}
-    catch(err){toast('请求失败：'+String(err.message||err).slice(0,90));t.messages.push({role:'assistant',content:'连接失败：'+String(err.message||err)}) ;persistThreads()}finally{$('send-message').disabled=false;renderChat()}
+  function sdk(){return window.puter?.ai?.chat&&window.puter?.auth?window.puter:null}
+  function sdkLoggedIn(){
+    try{return !!sdk()?.auth.isSignedIn()}catch{return false}
+  }
+  function updateFreeAccount(){
+    const state=$('puter-account-state');
+    if(!state)return;
+    if(puterSdkFailed){state.textContent='免费组件加载失败，请检查网络';return}
+    if(!sdk()){state.textContent='免费组件正在加载…';return}
+    const signedIn=sdkLoggedIn();
+    state.textContent=signedIn?'Puter 已连接':'首次问答时按提示登录';
+    $('puter-connect').textContent=signedIn?'重新登录':'连接 Puter';
+  }
+  const sdkScript=$('puter-sdk');
+  if(sdkScript){
+    sdkScript.addEventListener('load',updateFreeAccount);
+    sdkScript.addEventListener('error',()=>{puterSdkFailed=true;updateFreeAccount()});
+  }
+  function setChatMode(next){
+    chatMode=next==='api'?'api':'free';
+    safeSave('chatMode',chatMode);
+    activeThread=modeThreads()[0]?.id||null;
+    renderChat();
+  }
+  $('chat-mode-free').onclick=()=>setChatMode('free');
+  $('chat-mode-api').onclick=()=>setChatMode('api');
+  $('puter-connect').onclick=()=>{
+    const client=sdk();
+    if(!client){toast('Puter 组件尚未加载，请检查网络后重试');return}
+    try{
+      Promise.resolve(client.auth.signIn({attempt_temp_user_creation:true}))
+        .then(()=>{updateFreeAccount();toast('Puter 账号已连接')})
+        .catch(error=>toast('登录未完成：'+displayChatError(error)));
+    }catch(error){toast('登录未完成：'+displayChatError(error))}
+  };
+  $('new-chat').onclick=newThread;
+  $('chat-clear-all').onclick=()=>{
+    if(!modeThreads().length)return;
+    if(!confirm('清空当前通道的本地会话记录？'))return;
+    threads=threads.filter(t=>!inMode(t));activeThread=null;
+    persistThreads();renderChat();toast('本地会话已清空');
+  };
+  function updateModeUi(){
+    const free=selectedMode()==='free';
+    $('chat-mode-free').classList.toggle('active',free);
+    $('chat-mode-api').classList.toggle('active',!free);
+    $('chat-mode-free').setAttribute('aria-pressed',String(free));
+    $('chat-mode-api').setAttribute('aria-pressed',String(!free));
+    $('free-account-row').hidden=!free;
+    $('chat-provider-info').textContent=free
+      ?'Puter.js · 首次使用需登录 Puter，免费月度额度用完可自行决定是否升级'
+      :'自定义 API · 使用你部署的服务端网关及所选模型';
+    $('chat-configure').textContent=free?'API 设置':'配置连接';
+    $('chat-foot').textContent=free
+      ?'免费额度按 Puter 账号计算；会话记录只保存在当前浏览器。'
+      :'使用自定义网关；访问令牌仅保留在当前页面。';
+    const ok=free?!!sdk():apiConnected();
+    $('model-name-label').textContent=free?'Puter · 默认模型':(ok?(settings.model||'已配置模型'):'尚未配置 API');
+    $('gateway-status-dot').classList.toggle('connected',ok);
+    updateFreeAccount();
+  }
+  function renderChat(){
+    updateModeUi();
+    const list=modeThreads();
+    $('conversation-list').innerHTML=list.length?list.map(t=>'<button class="history-item '+(t.id===activeThread?'active':'')+'" data-thread="'+escapeHTML(t.id)+'">'+icon('message-square')+'<span>'+escapeHTML(t.title)+'</span></button>').join(''):'<div class="history-empty">暂无会话记录</div>';
+    $$('[data-thread]').forEach(b=>b.onclick=()=>{activeThread=b.dataset.thread;renderChat()});
+    const thread=currentThread();
+    if(!thread||!thread.messages.length){
+      const description=selectedMode()==='free'
+        ?'直接提问，首次使用请按提示登录 Puter。免费额度由 Puter 账户提供。'
+        :(apiConnected()?'通过已配置的 AI 网关进行对话。':'选择自定义 API 后，请先配置网关地址。');
+      $('chat-body').innerHTML='<div class="chat-intro"><span class="intro-crest"><img src="assets/school-emblem.png?v=20261105-r2" alt="校徽"></span><h2>开始新的对话</h2><p>'+escapeHTML(description)+'</p><div class="chat-prompts"><button data-chat-prompt="解释一下傅里叶变换的基本思想">解释傅里叶变换</button><button data-chat-prompt="帮我梳理一份英语学习计划">梳理英语学习计划</button><button data-chat-prompt="如何阅读一篇科研论文？">科研论文阅读方法</button><button data-chat-prompt="给我一个 Python 数据分析示例">Python 数据分析示例</button></div></div>';
+      $$('[data-chat-prompt]').forEach(b=>b.onclick=()=>{$('chat-input').value=b.dataset.chatPrompt;$('chat-input').focus()});
+    }else{
+      $('chat-body').innerHTML=thread.messages.map(m=>'<div class="chat-message '+(m.role==='user'?'user':'')+'"><span class="message-avatar">'+(m.role==='user'?'我':'SY')+'</span><div class="message-content">'+escapeHTML(m.content)+'</div></div>').join('');
+      $('chat-body').scrollTop=$('chat-body').scrollHeight;
+    }
+  }
+  function displayChatError(error){
+    const e=String(error?.msg||error?.message||error||'请求失败');
+    if(/quota|usage.limit|balance|billing|insufficient|payment|credit|exceeded/i.test(e))
+      return 'Puter 免费额度可能已用完，请到 Puter 账户查看用量。';
+    if(/popup.blocked|auth.window.closed|user.cancelled|login.cancel/i.test(e))
+      return '未完成 Puter 登录，请点击「连接 Puter」后重试。';
+    if(/network|fetch.failed|Failed to fetch|ERR_|timeout/i.test(e))
+      return '连接服务失败，请检查网络后重试。';
+    return e.slice(0,160);
+  }
+  async function sendFree(messages){
+    const client=sdk();
+    if(!client)throw new Error('Puter 组件未加载。请检查网络后刷新页面，或选择自定义 API。');
+    if(!sdkLoggedIn()){
+      await client.auth.signIn({attempt_temp_user_creation:true});
+      updateFreeAccount();
+    }
+    const response=await client.ai.chat(messages,{normalize:true});
+    const answer=response?.message?.content;
+    if(typeof answer!=='string'||!answer.trim())throw new Error('模型未返回有效文本，请重新发送。');
+    return answer.trim();
+  }
+  async function sendApi(messages){
+    const controller=new AbortController(),abort=setTimeout(()=>controller.abort(),60000);
+    let response;
+    try{
+      response=await fetch(apiEndpoint(),{
+        method:'POST',
+        headers:{'Content-Type':'application/json',...(gatewayToken?{'Authorization':'Bearer '+gatewayToken}:{})},
+        body:JSON.stringify({model:settings.model||'deepseek-chat',messages}),
+        signal:controller.signal
+      });
+    }finally{clearTimeout(abort)}
+    const payload=await response.json().catch(()=>({}));
+    if(!response.ok)throw new Error(payload.error||payload.message||'HTTP '+response.status);
+    const answer=payload.choices?.[0]?.message?.content??payload.reply??payload.content;
+    if(typeof answer!=='string'||!answer.trim())throw new Error('网关未返回有效回答');
+    return answer.trim();
+  }
+  $('chat-input').addEventListener('keydown',e=>{
+    if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing){e.preventDefault();$('chat-form').requestSubmit()}
   });
-  function openSettings(){$('gateway-url').value=settings.endpoint||'';$('gateway-model').value=settings.model||'';$('gateway-token').value=gatewayToken;$('settings-message').textContent='';$('settings-overlay').hidden=false;$('gateway-url').focus()}
+  $('chat-form').addEventListener('submit',async e=>{
+    e.preventDefault();if(sendingChat)return;
+    const input=$('chat-input'),message=input.value.trim();
+    if(!message)return;
+    if(selectedMode()==='api'&&!apiConnected()){
+      openSettings();$('settings-message').textContent='请先配置你的 API 网关地址';return;
+    }
+    if(selectedMode()==='free'&&!sdk()){
+      toast('免费组件尚未加载，请检查网络后重试');return;
+    }
+    let thread=currentThread();
+    if(!thread){newThread();thread=currentThread()}
+    if(!thread.messages.length)thread.title=message.slice(0,24);
+    const modeAtSend=selectedMode();
+    const history=thread.messages.filter(m=>m.role==='user'||m.role==='assistant')
+      .slice(-23).map(m=>({role:m.role,content:m.content}));
+    history.push({role:'user',content:message});
+    thread.messages.push({role:'user',content:message});
+    input.value='';persistThreads();renderChat();sendingChat=true;
+    $('send-message').disabled=true;
+    const loader=document.createElement('div');
+    loader.className='chat-message';
+    loader.innerHTML='<span class="message-avatar">SY</span><div class="message-content">正在生成回复…</div>';
+    $('chat-body').appendChild(loader);$('chat-body').scrollTop=$('chat-body').scrollHeight;
+    try{
+      const answer=modeAtSend==='free'?await sendFree(history):await sendApi(history);
+      thread.messages.push({role:'assistant',content:answer});persistThreads();
+    }catch(error){
+      const message=displayChatError(error);
+      toast('请求失败：'+message);
+      loader.querySelector('.message-content').textContent='请求失败：'+message;
+    }finally{
+      sendingChat=false;$('send-message').disabled=false;renderChat();
+    }
+  });
+  function openSettings(){
+    $('gateway-url').value=settings.endpoint||'';
+    $('gateway-model').value=settings.model||'';
+    $('gateway-token').value=gatewayToken;
+    $('settings-message').className='settings-message';
+    $('settings-message').textContent='';
+    $('settings-overlay').hidden=false;$('gateway-url').focus();
+  }
   function closeSettings(){$('settings-overlay').hidden=true}
-  $('settings-trigger').onclick=openSettings;$('settings-close').onclick=closeSettings;$('chat-configure').onclick=openSettings;
-  $('save-settings').onclick=()=>{const value=$('gateway-url').value.trim();if(value&&!(/^https:\/\//.test(value)||/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?/.test(value))){$('settings-message').className='settings-message error';$('settings-message').textContent='网关需要使用 HTTPS 地址（本机可使用 HTTP）';return}gatewayToken=$('gateway-token').value.trim();settings={endpoint:value,model:$('gateway-model').value.trim()||'deepseek-chat'};safeSave('settings',settings);$('settings-message').className='settings-message';$('settings-message').textContent=value?'配置已保存；访问令牌仅保留在当前页面':'网关配置已清除';renderChat();toast('设置已保存')};
-  $('test-connection').onclick=async()=>{const url=$('gateway-url').value.trim();if(!/^https:\/\//.test(url)&&!/^http:\/\/(localhost|127\.0\.0\.1)/.test(url)){$('settings-message').textContent='请先填写有效的 HTTPS 地址';return}const el=$('settings-message');el.className='settings-message';el.textContent='测试中…';try{const health=new URL(url);health.pathname=health.pathname.replace(/\/?chat\/?$/,'/health');let res=await fetch(health.toString(),{method:'GET',signal:AbortSignal.timeout(8000)});if(!res.ok)throw new Error('HTTP '+res.status);el.textContent='服务可访问。可保存后尝试发送消息。'}catch(e){el.className='settings-message error';el.textContent='连接失败：'+e.message+'。请检查 CORS、地址与服务状态。'}};
-  $('settings-overlay').addEventListener('click',e=>{if(e.target===$('settings-overlay'))closeSettings()});
+  $('settings-trigger').onclick=openSettings;
+  $('settings-close').onclick=closeSettings;
+  $('chat-configure').onclick=openSettings;
+  $('save-settings').onclick=()=>{
+    const value=$('gateway-url').value.trim();
+    if(value&&!(/^https:\/\//.test(value)||/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?/.test(value))){
+      $('settings-message').className='settings-message error';
+      $('settings-message').textContent='网关需要使用 HTTPS 地址（本机可使用 HTTP）';return;
+    }
+    gatewayToken=$('gateway-token').value.trim();
+    settings={endpoint:value,model:$('gateway-model').value.trim()||'deepseek-chat'};
+    safeSave('settings',settings);
+    $('settings-message').className='settings-message';
+    $('settings-message').textContent=value?'网关设置已保存':'网关设置已清除';
+    renderChat();toast('设置已保存');
+  };
+  $('test-connection').onclick=async()=>{
+    const url=$('gateway-url').value.trim();
+    if(!/^https:\/\//.test(url)&&!/^http:\/\/(localhost|127\.0\.0\.1)/.test(url)){
+      $('settings-message').textContent='请先填写有效的 HTTPS 地址';return;
+    }
+    const el=$('settings-message');
+    el.className='settings-message';el.textContent='测试中…';
+    try{
+      const health=new URL(url);
+      health.pathname=health.pathname.replace(/\/?chat\/?$/,'/health');
+      const result=await fetch(health.toString(),{method:'GET',signal:AbortSignal.timeout(8000)});
+      if(!result.ok)throw new Error('HTTP '+result.status);
+      el.textContent='服务可访问。可保存后尝试发送消息。';
+    }catch(error){
+      el.className='settings-message error';
+      el.textContent='连接失败：'+error.message+'。请检查 CORS、地址与服务状态。';
+    }
+  };
+  $('settings-overlay').addEventListener('click',e=>{
+    if(e.target===$('settings-overlay'))closeSettings()
+  });
 
   /* Command palette */
   const commandEntries=[...D.nav.map(n=>({label:n.name,icon:n.icon,route:n.id,kind:'页面'})),...D.applications.filter(a=>a.route==='tools').map(a=>({label:a.title,icon:a.icon,route:'tools',tab:a.tab,kind:'工具'}))];
