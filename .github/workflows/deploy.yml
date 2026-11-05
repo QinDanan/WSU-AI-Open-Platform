@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -23,36 +23,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Extract official school emblem
+      - name: Verify required files
         run: |
-          if [ ! -s assets/school-emblem.png ]; then
-            python -m pip install --quiet pymupdf
-            python scripts/fetch_school_emblem.py || echo 'Trying alternate public image resource'
-          fi
-          if [ ! -s assets/school-emblem.png ]; then
-            curl --fail --location --retry 2 --connect-timeout 8 --max-time 40 \
-              -A 'Mozilla/5.0' \
-              'https://jobs.ac.cn/storage/companies/wuchang-shouyi-university.png' \
-              --output assets/school-emblem.png || rm -f assets/school-emblem.png
-          fi
-          if [ -s assets/school-emblem.png ]; then
-            file assets/school-emblem.png
-            git config user.name 'github-actions[bot]'
-            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git add assets/school-emblem.png
-            if ! git diff --cached --quiet; then
-              git commit -m 'assets: add authentic school emblem'
-              git push || echo 'Logo bundled with site artifact; source commit skipped'
-            fi
-          else
-            echo 'School emblem was not retrieved from the public sources'
-          fi
-      - name: Prepare website artifact
+          test -s index.html
+          test -s assets/styles.css
+          test -s assets/polish.css
+          test -s assets/app.js
+          test -s assets/data.js
+          test -s assets/school-emblem.png
+          file assets/school-emblem.png
+      - name: Prepare site
         run: |
-          mkdir -p dist/assets
+          mkdir -p dist
           cp index.html dist/
-          cp assets/*.js assets/*.css assets/*.svg dist/assets/
-          if [ -s assets/school-emblem.png ]; then cp assets/school-emblem.png dist/assets/; fi
+          cp -R assets dist/
           touch dist/.nojekyll
       - name: Configure Pages
         uses: actions/configure-pages@v5
