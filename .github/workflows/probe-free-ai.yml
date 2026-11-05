@@ -60,7 +60,7 @@ jobs:
           )
           attempts=[]
           for model in ("mishima","murakumo/free","qwen3-vl-2b-instruct"):
-              payload={"model":model,"messages":[{"role":"user","content":"Reply exactly WSU-READY."}],"max_tokens":64}
+              payload={"model":model,"messages":[{"role":"user","content":"Reply exactly WSU-READY."}],"max_tokens":600,"stream":False}
               t=time.monotonic()
               c,h,b=request("POST",endpoint,headers={"Content-Type":"application/json","Origin":origin},
                             data=json.dumps(payload).encode(),timeout=50)
