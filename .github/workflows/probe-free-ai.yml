@@ -1,0 +1,86 @@
+name: Probe Free AI (no integration)
+
+on:
+  push:
+    paths:
+      - .github/workflows/probe-free-ai.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Probe real anonymous inference + GitHub Pages CORS
+        env:
+          TEST_ORIGIN: https://cha290196-hue.github.io
+        run: |
+          python3 - <<'PY'
+          import json, os, urllib.request, urllib.error, time
+          base="https://api.murakumo.cloud"
+          endpoint=base+"/v1/chat/completions"
+          origin=os.getenv("TEST_ORIGIN")
+          result={"provider":"murakumo.cloud","origin":origin,"tested":True,"keyless":True}
+          def request(method,url,headers=None,data=None,timeout=25):
+              req=urllib.request.Request(url,data=data,headers=headers or {},method=method)
+              try:
+                  with urllib.request.urlopen(req,timeout=timeout) as res:
+                      return res.status,dict(res.headers),res.read(50000).decode("utf-8","replace")
+              except urllib.error.HTTPError as err:
+                  return err.code,dict(err.headers),err.read(5000).decode("utf-8","replace")
+              except Exception as err:
+                  return 0,{},str(err)
+          code,headers,body=request("GET",base+"/v1/models",timeout=20)
+          result["model_catalog_status"]=code
+          if code==200:
+              try:
+                  models=json.loads(body)
+                  allmodels=models.get("data",[]) if isinstance(models,dict) else []
+                  result["available_model_ids"]=[x.get("id") for x in allmodels if isinstance(x,dict)][:12]
+              except Exception as err: result["catalog_error"]=str(err)
+          preflight=request("OPTIONS",endpoint,headers={
+              "Origin":origin,
+              "Access-Control-Request-Method":"POST",
+              "Access-Control-Request-Headers":"content-type",
+          },timeout=20)
+          result["cors_preflight_status"]=preflight[0]
+          cors=preflight[1]
+          lower={k.lower():v for k,v in cors.items()}
+          result["cors_allow_origin"]=lower.get("access-control-allow-origin","")
+          result["cors_allow_methods"]=lower.get("access-control-allow-methods","")
+          result["cors_allow_headers"]=lower.get("access-control-allow-headers","")
+          result["browser_cors_ok"]= (
+              preflight[0] in (200,204) and
+              result["cors_allow_origin"] in ("*",origin) and
+              "post" in result["cors_allow_methods"].lower() and
+              ("content-type" in result["cors_allow_headers"].lower() or result["cors_allow_headers"]=="*")
+          )
+          payload={"model":"murakumo/free","messages":[{"role":"user","content":"Reply with exactly WSU-READY."}],"max_tokens":48,"temperature":0}
+          t=time.monotonic()
+          c,h,b=request("POST",endpoint,headers={"Content-Type":"application/json","Origin":origin},data=json.dumps(payload).encode(),timeout=75)
+          result["chat_http_status"]=c
+          result["latency_seconds"]=round(time.monotonic()-t,2)
+          result["response_excerpt"]=b[:300] if c!=200 else ""
+          result["reply"]=""
+          try:
+              parsed=json.loads(b)
+              choices=parsed.get("choices",[])
+              if choices:
+                  result["reply"]=str(choices[0].get("message",{}).get("content",""))[:300]
+          except Exception as err:
+              result["response_parse_error"]=str(err)
+          result["real_chat_ok"]=(c==200 and bool(result["reply"].strip()))
+          result["integration_ready"]=result["real_chat_ok"] and result["browser_cors_ok"]
+          print(json.dumps(result,ensure_ascii=False,indent=2))
+          summary=os.environ.get("GITHUB_STEP_SUMMARY")
+          if summary:
+              with open(summary,"a",encoding="utf-8") as out:
+                  out.write("## Anonymous AI provider trial\n")
+                  out.write("| Check | Outcome |\n|---|---|\n")
+                  for label,key in [("Model catalog","model_catalog_status"),("CORS preflight","cors_preflight_status"),("Browser CORS","browser_cors_ok"),("Real chat HTTP","chat_http_status"),("Real model reply","real_chat_ok"),("Ready for GitHub Pages","integration_ready")]:
+                      out.write(f"| {label} | {result.get(key)} |\n")
+                  out.write("\nTest message is synthetic and contains no private information. No production website files were modified.\n")
+          PY
