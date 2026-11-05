@@ -327,7 +327,7 @@ img{max-width:100%}
   flex:0 0 auto;
 }
 .chat-mode-choice{
-  font:700 12px/1.4 inherit;
+  font-family:inherit;font-size:12px;font-weight:700;line-height:1.4;
   color:#647d9c;
   background:transparent;
   border:0;
