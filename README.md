@@ -1,9 +1,9 @@
 <div align="center">
-  <a href="https://cha290196-hue.github.io/WSU-AI-Open-Platform/">
+  <a href="https://QinDanan.github.io/WSU-AI-Open-Platform/">
     <img src="assets/readme-cover.svg" width="100%" alt="WSU AI Open Platform">
   </a>
   <p>
-    <a href="https://cha290196-hue.github.io/WSU-AI-Open-Platform/"><b>访问网站</b></a>
+    <a href="https://QinDanan.github.io/WSU-AI-Open-Platform/"><b>访问网站</b></a>
     &nbsp;·&nbsp;
     <a href="#功能"><b>功能</b></a>
     &nbsp;·&nbsp;
@@ -11,7 +11,7 @@
     &nbsp;·&nbsp;
     <a href="#开发与运行"><b>本地运行</b></a>
     &nbsp;·&nbsp;
-    <a href="https://github.com/cha290196-hue/WSU-AI-Open-Platform/issues"><b>Issues</b></a>
+    <a href="https://github.com/QinDanan/WSU-AI-Open-Platform/issues"><b>Issues</b></a>
   </p>
   <img alt="HTML" src="https://img.shields.io/badge/HTML5-1F4C7C?style=flat-square&logo=html5&logoColor=white">
   <img alt="CSS" src="https://img.shields.io/badge/CSS3-1F4C7C?style=flat-square&logo=css&logoColor=white">
@@ -25,7 +25,7 @@
 
 **首义 AI** 是围绕武昌首义学院学习场景开发的 Web 工作台，集成校园公开资料检索、Markdown 笔记、任务计划、成绩计算与文本处理。AI 对话提供免登录试用与自定义 API 两种通道。
 
-- **访问地址**　https://cha290196-hue.github.io/WSU-AI-Open-Platform/
+- **访问地址**　https://QinDanan.github.io/WSU-AI-Open-Platform/
 - **部署方式**　静态页面通过 GitHub Actions 发布至 GitHub Pages
 - **数据存储**　笔记、任务、会话记录保存在使用者当前浏览器
 - **项目依赖**　前端原生 HTML / CSS / JavaScript，无需安装 Node.js
@@ -34,7 +34,7 @@
 
 ## 界面
 
-[**打开实时界面**](https://cha290196-hue.github.io/WSU-AI-Open-Platform/) 查看桌面与手机适配。交互覆盖侧栏导航、全局命令搜索、工具切换与各工作区。
+[**打开实时界面**](https://QinDanan.github.io/WSU-AI-Open-Platform/) 查看桌面与手机适配。交互覆盖侧栏导航、全局命令搜索、工具切换与各工作区。
 
 <!-- SCREENSHOTS_START -->
 <table>
@@ -112,7 +112,7 @@ GitHub Pages（浏览器工作台）
 ## 开发与运行
 
 ```bash
-git clone https://github.com/cha290196-hue/WSU-AI-Open-Platform.git
+git clone https://github.com/QinDanan/WSU-AI-Open-Platform.git
 cd WSU-AI-Open-Platform
 python -m http.server 8000
 ```
@@ -153,7 +153,7 @@ WSU-AI-Open-Platform/
 
 ## 参与开发
 
-问题反馈与功能需求通过 [GitHub Issues](https://github.com/cha290196-hue/WSU-AI-Open-Platform/issues) 跟踪。修改代码可以提交 Pull Request。源码按 [MIT License](LICENSE) 发布。
+问题反馈与功能需求通过 [GitHub Issues](https://github.com/QinDanan/WSU-AI-Open-Platform/issues) 跟踪。修改代码可以提交 Pull Request。源码按 [MIT License](LICENSE) 发布。
 
 ---
 
