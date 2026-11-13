@@ -3,7 +3,7 @@ main = "worker.js"
 compatibility_date = "2026-11-01"
 
 [vars]
-ALLOWED_ORIGIN = "https://cha290196-hue.github.io"
+ALLOWED_ORIGIN = "https://QinDanan.github.io"
 UPSTREAM_URL = "https://api.deepseek.com/chat/completions"
 MODEL_ALLOWLIST = "deepseek-chat,deepseek-reasoner"
 MAX_TOKENS = "2048"
