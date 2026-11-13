@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: Probe real anonymous inference + GitHub Pages CORS
         env:
-          TEST_ORIGIN: https://cha290196-hue.github.io
+          TEST_ORIGIN: https://QinDanan.github.io
         run: |
           python3 - <<'PY'
           import json, os, urllib.request, urllib.error, time
